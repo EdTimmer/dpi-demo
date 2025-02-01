@@ -41,7 +41,7 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   useEffect(() => {
     const loader = new FontLoader();
-    loader.load('/fonts/mediator_narrow_web_extra_bold_regular.typeface.json', (loadedFont) => {
+    loader.load('/fonts/open_sans_light_regular.typeface.json', (loadedFont) => {
       setFont(loadedFont);
     });
   }, []);
@@ -75,7 +75,7 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   return (
     <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position}>
-      <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} />
+      <meshStandardMaterial metalness={1.0} roughness={0.5} color={color} />
     </mesh>
   );
 };

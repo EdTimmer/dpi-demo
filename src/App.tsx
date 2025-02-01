@@ -13,8 +13,8 @@ import {
   Header,
   HeaderContainer
 } from './App.styles'
-import LogoOneGroup from './components/LogoGroupOne';
-import ShelfGroup from './components/ShelfGroup';
+import LogoOneGroup from './components/LogoOneGroup';
+import LogoTwoGroup from './components/LogoTwoGroup';
 import DeloitteDigitalLogoGroup from './components/DeloitteDigitalLogoGroup';
 import ThreeDWebGroup from './components/ThreeDWebGroup';
 
@@ -37,7 +37,7 @@ function App() {
   return (
     <AppContainer>
       <Row>
-        <DeloitteDigitalLogoContainer>
+        {/* <DeloitteDigitalLogoContainer>
           <Canvas gl={{ antialias: true }}>
             <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
             <ambientLight intensity={0.5} />
@@ -51,7 +51,7 @@ function App() {
             <DeloitteDigitalLogoGroup />
             <Environment preset="forest" />
           </Canvas>
-        </DeloitteDigitalLogoContainer>    
+        </DeloitteDigitalLogoContainer>     */}
       </Row>
 
       <SecondRow>
@@ -63,48 +63,46 @@ function App() {
             <directionalLight position={[0, 10, 10]} />
             <directionalLight position={[10, -10, 0]} />
             <directionalLight position={[-10, -10, 0]} />
-            <Environment preset="warehouse" />
+            {/* <Environment preset="warehouse" /> */}
             <OrbitControls enableDamping enableZoom={false} />
           </Canvas>          
         </LogoOneContainer>
 
         <ShelfContainer>
           <Canvas gl={{ antialias: true }}>
-            <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
+          <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
             <ambientLight intensity={0.5} />
+            <LogoTwoGroup />
             <directionalLight position={[0, 10, 10]} />
             <directionalLight position={[10, -10, 0]} />
             <directionalLight position={[-10, -10, 0]} />
-            {!isMobile && <OrbitControls enableDamping enableZoom={false} />}
-            <ShelfGroup />
-            <Environment preset="forest" />
+            {/* <Environment preset="warehouse" /> */}
+            <OrbitControls enableDamping enableZoom={false} />
+            {/* <Environment preset="forest" /> */}
           </Canvas>
         </ShelfContainer>
       </SecondRow>
 
       <div>
-        <Row>
+        {/* <Row>
           <ThreeDWebGroupContainer>
             <Canvas gl={{ antialias: true }}>
               <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
               <ambientLight intensity={0.5} />
-              {/* <directionalLight position={[0, 10, 10]} />
-              <directionalLight position={[10, -10, 10]} />
-              <directionalLight position={[-10, -10, 10]} /> */}
               {!isMobile && <OrbitControls enableDamping enableZoom={false} />}
               <ThreeDWebGroup />
               <Environment preset="lobby" />
             </Canvas>
           </ThreeDWebGroupContainer>
-        </Row>
-
+        </Row> */}
+{/* 
         <Row>
           <HeaderContainer>
             <Header>This is a demo of use of 3D graphics for logos on a website.</Header>
             <Header>Click and drag any logo to rotate it. This feature is optional and is currently disabled for small screens.</Header>
             <Header>Created by Edward Timmer, Deloitte Digital</Header>
           </HeaderContainer>
-        </Row>
+        </Row> */}
       </div>
     </AppContainer>
   )
