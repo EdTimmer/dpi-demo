@@ -37,11 +37,11 @@ export const SecondRow = styled.div`
   align-items: center;
   margin: 0;
   padding: 0;
-  margin-top: -10rem;
+  /* margin-top: -10rem; */
   flex-wrap: wrap;
 
   @media (min-width: 1024px) {
-    gap: 40rem;
+    /* gap: 40rem; */
   }
 `;
 
@@ -74,7 +74,7 @@ export const LogoOneContainer = styled.div`
   /* margin-left: 10rem; */
 `;
 
-export const ShelfContainer = styled.div`
+export const LogoTwoContainer = styled.div`
   /* border: 1px dashed ${colors.seasalt}; */
   /* border-radius: 30rem; */
   width: 35rem;

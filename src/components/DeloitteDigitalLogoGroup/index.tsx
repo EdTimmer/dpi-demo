@@ -9,18 +9,18 @@ import LogoTextLight from './LogoTextLight';
 function DeloitteDigitalLogoGroup() {
   const logoGroupRef = useRef<Group>(null);
 
-  useFrame(({ clock }) => {
-    if (logoGroupRef.current) {
-      const time = clock.getElapsedTime();
-      logoGroupRef.current.rotation.y = Math.sin(time * 0.5) * 0.2;
-    }
-  });
+  // useFrame(({ clock }) => {
+  //   if (logoGroupRef.current) {
+  //     const time = clock.getElapsedTime();
+  //     logoGroupRef.current.rotation.y = Math.sin(time * 0.5) * 0.2;
+  //   }
+  // });
 
   return (
-    <group position={[0, 0, 0]} scale={[1.1, 1.1, 1.1]} ref={logoGroupRef} rotation={new THREE.Euler(0, 0, 0)}>        
-      <LogoTextBold text={'Deloitte'} position={[0, 1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} />
-      <LogoTextLight text={'Digital'} position={[-1.24, -1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} />
-      <GreenDotGlass size={0.35} position={[4.45, 0.525, 0]} />
+    <group position={[0, 0, 0.2]} scale={[0.3, 0.3, 0.3]} ref={logoGroupRef} rotation={new THREE.Euler(0, 0, 0)}>        
+      <LogoTextBold text={'Deloitte'} position={[-0.15, 1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} />
+      <LogoTextLight text={'Digital'} position={[-1.62, -1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} />
+      <GreenDotGlass size={0.35} position={[4.3, 0.5, 0]} />
     </group>    
   );
 }

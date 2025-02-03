@@ -6,7 +6,7 @@ import {
   AppContainer,
   LogoOneContainer,
   ThreeDWebGroupContainer,
-  ShelfContainer,
+  LogoTwoContainer,
   DeloitteDigitalLogoContainer,
   Row,
   SecondRow,
@@ -17,22 +17,38 @@ import LogoOneGroup from './components/LogoOneGroup';
 import LogoTwoGroup from './components/LogoTwoGroup';
 import DeloitteDigitalLogoGroup from './components/DeloitteDigitalLogoGroup';
 import ThreeDWebGroup from './components/ThreeDWebGroup';
+import LogoContainer from './components/LogoContainer';
+import LogoOneWrapper from './components/LogoOneWrapper';
+import LogoTwoWrapper from './components/LogoTwoWrapper';
+import LogoThreeWrapper from './components/LogoThreeWrapper';
+import LogoFourWrapper from './components/LogoFourWrapper';
 
 function App() {
-  const [isMobile, setIsMobile] = useState(false);
+  // const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile
+  //   };
 
-    handleResize();
-    window.addEventListener('resize', handleResize);
+  //   handleResize();
+  //   window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
+  const [isMouseEnteredOne, setIsMouseEnteredOne] = useState(false);
+  const [isMouseLeftOne, setIsMouseLeftOne] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsMouseEnteredOne(true);
+    setIsMouseLeftOne(false);
+  }
+  const handleMouseLeave = () => {
+    setIsMouseEnteredOne(false);
+    setIsMouseLeftOne(true);
+  }
 
   return (
     <AppContainer>
@@ -55,32 +71,13 @@ function App() {
       </Row>
 
       <SecondRow>
-        <LogoOneContainer>
-          <Canvas gl={{ antialias: true }}>
-            <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
-            <ambientLight intensity={0.5} />
-            <LogoOneGroup />
-            <directionalLight position={[0, 10, 10]} />
-            <directionalLight position={[10, -10, 0]} />
-            <directionalLight position={[-10, -10, 0]} />
-            {/* <Environment preset="warehouse" /> */}
-            <OrbitControls enableDamping enableZoom={false} />
-          </Canvas>          
-        </LogoOneContainer>
+        <LogoOneWrapper />
+        <LogoTwoWrapper />
+      </SecondRow>
 
-        <ShelfContainer>
-          <Canvas gl={{ antialias: true }}>
-          <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
-            <ambientLight intensity={0.5} />
-            <LogoTwoGroup />
-            <directionalLight position={[0, 10, 10]} />
-            <directionalLight position={[10, -10, 0]} />
-            <directionalLight position={[-10, -10, 0]} />
-            {/* <Environment preset="warehouse" /> */}
-            <OrbitControls enableDamping enableZoom={false} />
-            {/* <Environment preset="forest" /> */}
-          </Canvas>
-        </ShelfContainer>
+      <SecondRow>
+        <LogoThreeWrapper />
+        <LogoFourWrapper />
       </SecondRow>
 
       <div>

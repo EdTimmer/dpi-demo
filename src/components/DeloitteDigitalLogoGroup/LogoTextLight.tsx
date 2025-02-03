@@ -25,8 +25,8 @@ const LogoTextLight = ({ position, rotation, text }: Props) => {
   
       const textOptions = {
         font,
-        size: 1.5,
-        depth: 0.4,
+        size: 1.35,
+        depth: 1.5,
         curveSegments: 12,
         bevelEnabled: false,
         bevelThickness: 0.1,
@@ -63,7 +63,7 @@ const LogoTextLight = ({ position, rotation, text }: Props) => {
         envMapIntensity={0.5}  // Control the strength of the reflections
         // color="#999999"  // Use a slightly grey color instead of pure white
         // color='black'
-        color='#8a00f3' // '#ff0000'
+        color='#000' // '#ff0000'
       />
     </mesh>
   );

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import * as THREE from 'three';
@@ -6,23 +6,50 @@ import Text from './Text';
 import Cushion from './Cushion';
 import GreenDotMetalTwo from './GreenDotMetalTwo';
 
+interface Props {
+  isMouseEntered: boolean;
+  isMouseLeft: boolean;
+}
 
-function LogoOneGroup() {
+function LogoOneGroup({ isMouseEntered, isMouseLeft }: Props) {
   const logoOneGroupRef = useRef<Group>(null);
 
-  // Rotate the group on each frame
-  useFrame(({ clock }) => {
+  // Set the initial rotation on mount only
+  useEffect(() => {
     if (logoOneGroupRef.current) {
-      const time = clock.getElapsedTime();
-      logoOneGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.1;
-      logoOneGroupRef.current.rotation.y = Math.cos(time * 0.5) * 0.1 + Math.PI;
+      logoOneGroupRef.current.rotation.y = Math.PI;
+    }
+  }, []);
+
+  useFrame((state, delta) => {
+    const time = state.clock.getElapsedTime();
+    
+    // The small 'breathing' rotation in X:
+    if (logoOneGroupRef.current) {
+      logoOneGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.05;
+    }
+  
+    // Then the Y rotation on mouse enter/leave, scaled by delta:
+    if (
+      isMouseEntered &&
+      logoOneGroupRef.current &&
+      logoOneGroupRef.current.rotation.y <= Math.PI * 2
+    ) {
+      logoOneGroupRef.current.rotation.y += 2 * delta;
+    } else if (
+      isMouseLeft &&
+      logoOneGroupRef.current &&
+      logoOneGroupRef.current.rotation.y >= Math.PI
+    ) {
+      logoOneGroupRef.current.rotation.y -= 2 * delta;
     }
   });
 
+
   return (
-    <group position={[0, -0.5, 0]} scale={[0.9, 0.9, 0.9]} ref={logoOneGroupRef} rotation={new THREE.Euler(0, Math.PI, 0)}>
+    <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={logoOneGroupRef}>
       <Text text={'D'} position={[-0.1, 0.1, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={1.9} depth={0.5} color={'white'} />
-      <GreenDotMetalTwo color={'#168900'} size={0.3} position={[0.9, -0.5, 0.1]} />
+      <GreenDotMetalTwo color={'#37d816'} size={0.3} position={[0.9, -0.5, 0.15]} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, -0.2]} rotation={new THREE.Euler(0, 0, 0)} />
     </group>    
   );

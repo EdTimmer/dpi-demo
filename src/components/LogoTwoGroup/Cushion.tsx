@@ -24,9 +24,9 @@ const Cushion = ({ position, rotation, size, scale }: Props) => {
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial
         envMap={envMap}
-        metalness={1.0}
-        roughness={0.0}
-        opacity={0}
+        metalness={0.8}
+        roughness={0}
+        opacity={1}
         envMapIntensity={1}
       />
     </mesh>

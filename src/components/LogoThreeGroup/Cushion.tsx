@@ -12,7 +12,7 @@ interface Props {
 const Cushion = ({ position, rotation, size, scale }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, '/images/oil-blue3.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/images/ripples.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -20,14 +20,14 @@ const Cushion = ({ position, rotation, size, scale }: Props) => {
   }, [texture]);
 
   return (
-    <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale} renderOrder={1}>
+    <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale}>
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial
         envMap={envMap}
         metalness={1.0}
         roughness={0.0}
         opacity={0}
-        envMapIntensity={1}
+        envMapIntensity={1.0}
       />
     </mesh>
   );

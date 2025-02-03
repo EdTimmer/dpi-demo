@@ -7,13 +7,6 @@ import uraniumVertexShader from '../../assets/shaders/uranium/vertex.glsl?raw'
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
-const TextUraniumMaterial = shaderMaterial(
-  {
-    uTime: 0,
-  },
-  uraniumVertexShader,
-  uraniumFragmentShader
-)
 
 // Make shader material available in JSX
 // extend({ UraniumTextMaterial: TextUraniumMaterial });
@@ -35,16 +28,22 @@ interface Props {
   color: string;
 }
 
-const Text = ({ position, rotation, text, size, depth, color }: Props) => {
+const TextBold = ({ position, rotation, text, size, depth, color }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
   useEffect(() => {
     const loader = new FontLoader();
-    loader.load('/fonts/open_sans_light_regular.typeface.json', (loadedFont) => {
+    loader.load('/fonts/mediator_narrow_web_extra_bold_regular.typeface.json', (loadedFont) => {
       setFont(loadedFont);
     });
   }, []);
+    const texture = useLoader(THREE.TextureLoader, '/images/cloud_2.jpg');
+  
+    const envMap = useMemo(() => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      return texture;
+    }, [texture]);
 
     // Use `useMemo` to memoize the geometry creation and avoid recreation on every render
     const textGeometry = useMemo(() => {
@@ -56,8 +55,8 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
         depth,
         curveSegments: 12,
         bevelEnabled: false,
-        bevelThickness: 0.1,
-        bevelSize: 0.1,
+        bevelThickness: 0.05,
+        bevelSize: 0.3,
         bevelOffset: 0.0,
         bevelSegments: 5,
       };
@@ -75,25 +74,9 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   return (
     <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position}>
-       <meshPhysicalMaterial
-        clearcoat={1}  // Shiny surface effect
-        transmission={1}  // Fully transparent
-        opacity={0.2}  // Fully opaque but will be transparent due to transmission
-        // transparent={true}  // Enable transparency
-        roughness={0}  // Smooth like glass
-        reflectivity={0.5}  // Adjust reflection intensity
-        metalness={0}  // Glass is non-metallic
-        ior={1.45}  // Typical for glass (Index of Refraction)
-        thickness={0.00001}  // Controls the refraction and look of thickness
-        // attenuationColor="#ffffff"  // The color of the glass when light passes through
-        attenuationDistance={2.5}  // Distance at which the glass becomes less transparent
-        envMapIntensity={0.1}  // Control the strength of the reflections
-        // color="#999999"  // Use a slightly grey color instead of pure white
-        // color='black'
-        color={color} //'#7400cc' // '#8a00f3'
-      />
+      <meshStandardMaterial metalness={1.0} roughness={0} color={color} envMap={envMap} envMapIntensity={1} />
     </mesh>
   );
 };
 
-export default Text;
+export default TextBold;

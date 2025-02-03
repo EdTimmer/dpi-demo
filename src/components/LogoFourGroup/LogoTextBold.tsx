@@ -47,8 +47,14 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh geometry={textGeometry} rotation={rotation} position={position}>
-      <meshPhysicalMaterial
+    <mesh geometry={textGeometry} rotation={rotation} position={position} scale={[0.33, 0.33, 0.33]} renderOrder={2}>
+      <meshStandardMaterial
+        color={'#fbd641'}
+        metalness={0.6}
+        roughness={0.1}
+     />
+      
+      {/* <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
         transmission={1}  // Fully transparent
         opacity={0.2}  // Fully opaque but will be transparent due to transmission
@@ -63,8 +69,8 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
         envMapIntensity={0.1}  // Control the strength of the reflections
         // color="#999999"  // Use a slightly grey color instead of pure white
         // color='black'
-        color='#000' // '#7400cc' // '#8a00f3'
-      />
+        color='#000' // '#7400cc' // '#8a00f3' */}
+      
     </mesh>
   );
 };

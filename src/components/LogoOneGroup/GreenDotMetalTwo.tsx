@@ -11,7 +11,7 @@ interface Props {
 const GreenDotMetalTwo = ({ position, size, color }: Props) => {
   const greenDotMetalRef = useRef<THREE.Mesh>(null);
 
-    const texture = useLoader(THREE.TextureLoader, '/images/ripples.jpg');
+    const texture = useLoader(THREE.TextureLoader, '/images/oil-green.jpg');
   
     const envMap = useMemo(() => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -19,9 +19,18 @@ const GreenDotMetalTwo = ({ position, size, color }: Props) => {
     }, [texture]);
   
   return (
-    <mesh ref={greenDotMetalRef} position={position}>
+    <mesh ref={greenDotMetalRef} position={position} renderOrder={2}>
       <sphereGeometry args={[size, 32, 32]} />
-      <meshStandardMaterial metalness={1.0} roughness={0} color={color} envMap={envMap} envMapIntensity={1} />
+      <meshStandardMaterial
+        metalness={1}
+        roughness={0.1}
+        color={color}
+        envMap={envMap}
+        envMapIntensity={1}
+        
+        // polygonOffsetFactor={-1} // adjust as needed
+        // polygonOffsetUnits={-1}  // adjust as needed
+      />
     </mesh>
   );
 };

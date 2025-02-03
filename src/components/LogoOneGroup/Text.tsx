@@ -39,7 +39,7 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
-  const texture = useLoader(THREE.TextureLoader, '/images/ripples.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/images/rainbow_1.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -81,7 +81,7 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position}>
+    <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
       <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} envMap={envMap} envMapIntensity={1} />
     </mesh>
   );
