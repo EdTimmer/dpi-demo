@@ -10,10 +10,15 @@ interface Props {
   text: string;
   size: number;
   depth: number;
-  color: string;
+  textMaterialProps: {
+    envMapIntensity: number;
+    color: string;
+    metalness: number;
+    roughness: number;
+  }
 }
 
-const Text = ({ position, rotation, text, size, depth, color }: Props) => {
+const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
@@ -60,7 +65,13 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   return (
     <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
-      <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} envMap={envMap} envMapIntensity={1} />
+      <meshStandardMaterial 
+        metalness={textMaterialProps.metalness}
+        roughness={textMaterialProps.roughness}
+        color={textMaterialProps.color}
+        envMap={envMap}
+        envMapIntensity={textMaterialProps.envMapIntensity}
+      />
     </mesh>
   );
 };
