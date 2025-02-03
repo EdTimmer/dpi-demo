@@ -19,10 +19,14 @@ const LogoFourWrapper = () => {
   }
 
   const leftLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const leftLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
 
   useEffect(() => {
     if (leftLightRef.current) {
       leftLightRef.current.lookAt(-1, -0.9, 0);
+    }
+    if (leftLightRefTwo.current) {
+      leftLightRefTwo.current.lookAt(-1, -0.9, 0);
     }
   }, []);
   // const rectLightRef = useRef<THREE.RectAreaLight | null>(null)
@@ -58,7 +62,8 @@ const LogoFourWrapper = () => {
         {/* <directionalLight position={[-5, -0.9, 10]} />
         <directionalLight position={[5, -0.9, 10]} />
         <directionalLight position={[1, -0.9, 10]} /> */}
-        <directionalLight ref={leftLightRef} position={[0.5, -0.9, 10]} intensity={0.3} />
+        <directionalLight ref={leftLightRef} position={[0.5, -2.0, 10]} intensity={0.2} />
+        <directionalLight ref={leftLightRefTwo} position={[0.5, 2.0, 10]} intensity={0.05} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        
