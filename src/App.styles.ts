@@ -5,19 +5,14 @@ import lakeImage from '/images/lake-purple.jpg';
 export const AppContainer = styled.div`
   position: relative;
   z-index: 1;
-  /* background: ${colors.eerieBlack}; */
-  /* background-image: url(${lakeImage}); */
   font-family: 'Roboto Mono', monospace;
-  padding: 0 3rem 5rem 3rem;
-  /* width: 100vw; */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  padding: 30px;
   width: 100vw;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
   overflow: hidden;
 `;
 
@@ -28,16 +23,6 @@ export const Row = styled.div`
   align-items: center;
   margin: 0;
   padding: 0;
-`;
-
-export const SecondRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  /* margin-top: -10rem; */
   flex-wrap: wrap;
 
   @media (min-width: 1024px) {

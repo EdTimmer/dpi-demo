@@ -47,7 +47,7 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh geometry={textGeometry} rotation={rotation} position={position}>
+    <mesh geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
       <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
         transmission={1}  // Fully transparent

@@ -29,23 +29,6 @@ const LogoFourWrapper = () => {
       leftLightRefTwo.current.lookAt(-1, -0.9, 0);
     }
   }, []);
-  // const rectLightRef = useRef<THREE.RectAreaLight | null>(null)
-
-  // // Initialize the library once
-  // useEffect(() => {
-  //   RectAreaLightUniformsLib.init()
-  // }, [])
-
-  // // Optionally attach a helper to see the rectangle
-  // useHelper(rectLightRef as React.MutableRefObject<RectAreaLight>, RectAreaLightHelper, 'teal')
-
-  // // You can also dynamically update orientation
-  // useFrame(() => {
-  //   if (rectLightRef.current) {
-  //     // Make the rectangular light look at the origin
-  //     rectLightRef.current.lookAt(0, 0, 0)
-  //   }
-  // })
 
   return (
     <div 
@@ -57,11 +40,6 @@ const LogoFourWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
         <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} />
-        {/* <RectAreaLight /> */}
-        {/* <rectAreaLight intensity={1} position={[0, -1, 10]} width={10} height={3} /> */}
-        {/* <directionalLight position={[-5, -0.9, 10]} />
-        <directionalLight position={[5, -0.9, 10]} />
-        <directionalLight position={[1, -0.9, 10]} /> */}
         <directionalLight ref={leftLightRef} position={[0.5, -2.0, 10]} intensity={0.2} />
         <directionalLight ref={leftLightRefTwo} position={[0.5, 2.0, 10]} intensity={0.05} />
         <OrbitControls enableDamping enableZoom={false} />

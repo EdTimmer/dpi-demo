@@ -48,9 +48,9 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft }: Props) {
 
   return (
     <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={logoOneGroupRef}>
-      <Text text={'D'} position={[-0.1, 0.1, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={1.9} depth={0.5} color={'white'} />
-      <GreenDotMetalTwo color={'#37d816'} size={0.3} position={[0.9, -0.5, 0.15]} />
-      <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, -0.2]} rotation={new THREE.Euler(0, 0, 0)} />
+      <Text text={'D'} position={[-0.1, 0.1, 0.3]} rotation={new THREE.Euler(0, 0, 0)} size={1.9} depth={0.5} color={'white'} />
+      <GreenDotMetalTwo color={'#37d816'} size={0.3} position={[0.9, -0.5, 0.35]} />
+      <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} />
     </group>    
   );
 }

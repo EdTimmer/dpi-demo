@@ -47,7 +47,7 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh geometry={textGeometry} rotation={rotation} position={position} scale={[0.33, 0.33, 0.33]} renderOrder={2}>
+    <mesh geometry={textGeometry} rotation={rotation} position={position} scale={[0.33, 0.33, 0.33]} renderOrder={3}>
       {/* <meshStandardMaterial
         color={'#fbd641'}
         metalness={0.6}

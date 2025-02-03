@@ -2,9 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import * as THREE from 'three';
-import TextBold from './TextBold';
 import Cushion from './Cushion';
-import TextLight from './TextLight';
 import DeloitteDigitalLogoGroup from '../DeloitteDigitalLogoGroup';
 
 interface Props {
@@ -51,7 +49,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft }: Props) {
       {/* <TextBold text={'Deloitte'} position={[0, 0.3, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.54} depth={0.5} color={'#fff'} />
       <TextLight text={'Digital'} position={[-0.45, -0.35, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.48} depth={0.5} color={'#fff'} /> */}
       <DeloitteDigitalLogoGroup />
-      <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, -0.2]} rotation={new THREE.Euler(0, 0, 0)} />
+      <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} />
     </group>    
   );
 }

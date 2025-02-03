@@ -20,7 +20,7 @@ const Cushion = ({ position, rotation, size, scale }: Props) => {
   }, [texture]);
 
   return (
-    <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale}>
+    <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale} renderOrder={1}>
       <sphereGeometry args={[size, 32, 32]} />
       {/* <meshStandardMaterial
         envMap={envMap}

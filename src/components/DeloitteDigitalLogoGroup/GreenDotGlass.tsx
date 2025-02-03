@@ -5,7 +5,7 @@ interface Props {
 
 const GreenDotGlass = ({ position, size }: Props) => {
   return (
-    <mesh position={position}>
+    <mesh position={position} renderOrder={4}>
       <sphereGeometry args={[size, 32, 32]} />
       <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect

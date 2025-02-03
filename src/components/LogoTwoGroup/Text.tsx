@@ -1,30 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import * as THREE from 'three';
-import { useLoader, extend, ReactThreeFiber, useFrame } from '@react-three/fiber';
-import { shaderMaterial } from '@react-three/drei';
-import uraniumFragmentShader from '../../assets/shaders/uranium/fragment.glsl?raw'
-import uraniumVertexShader from '../../assets/shaders/uranium/vertex.glsl?raw'
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
-
-const TextUraniumMaterial = shaderMaterial(
-  {
-    uTime: 0,
-  },
-  uraniumVertexShader,
-  uraniumFragmentShader
-)
-
-// Make shader material available in JSX
-// extend({ UraniumTextMaterial: TextUraniumMaterial });
-
-// declare global {
-//   namespace JSX {
-//     interface IntrinsicElements {
-//       uraniumTextMaterial: ReactThreeFiber.Object3DNode<THREE.ShaderMaterial, typeof TextUraniumMaterial>;
-//     }
-//   }
-// }
 
 interface Props {
   position: [number, number, number];
@@ -38,13 +15,6 @@ interface Props {
 const Text = ({ position, rotation, text, size, depth, color }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
-
-  const texture = useLoader(THREE.TextureLoader, '/images/rainbow_1.jpg');
-
-  const envMap = useMemo(() => {
-    texture.mapping = THREE.EquirectangularReflectionMapping;
-    return texture;
-  }, [texture]);
 
   useEffect(() => {
     const loader = new FontLoader();
@@ -81,7 +51,7 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position}>
+    <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
       {/* <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} envMap={envMap} envMapIntensity={1} /> */}
        <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
@@ -100,11 +70,6 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
         // color='black'
         color={color} //'#7400cc' // '#8a00f3'
       />
-      {/* <meshStandardMaterial 
-        metalness={1}
-        roughness={1}
-        color={color}
-      /> */}
     </mesh>
   );
 };
