@@ -25,7 +25,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft }: Props) {
     
     // The small 'breathing' rotation in X:
     if (logoTwoGroupRef.current) {
-      logoTwoGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.05;
+      logoTwoGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.1;
     }
   
     // Then the Y rotation on mouse enter/leave, scaled by delta:
@@ -46,7 +46,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft }: Props) {
 
   return (
     <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={logoTwoGroupRef}>
-      <Text text={'DP&I'} position={[0, 0, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.8} depth={0.5} color={'#200019'} />
+      <Text text={'DP&I'} position={[-0.05, 0.1, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.8} depth={0.5} color={'#fff'} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, -0.2]} rotation={new THREE.Euler(0, 0, 0)} />
     </group>    
   );

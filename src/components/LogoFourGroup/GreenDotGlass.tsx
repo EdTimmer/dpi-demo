@@ -9,7 +9,7 @@ const GreenDotGlass = ({ position, size }: Props) => {
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial
         color={'#1df800'}
-        metalness={0.5}
+        metalness={0.3}
         roughness={0}
      />
       {/* <pointLight

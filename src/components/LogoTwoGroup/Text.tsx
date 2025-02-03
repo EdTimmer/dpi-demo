@@ -39,6 +39,13 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
+  const texture = useLoader(THREE.TextureLoader, '/images/rainbow_1.jpg');
+
+  const envMap = useMemo(() => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    return texture;
+  }, [texture]);
+
   useEffect(() => {
     const loader = new FontLoader();
     loader.load('/fonts/open_sans_light_regular.typeface.json', (loadedFont) => {
@@ -75,16 +82,17 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   return (
     <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position}>
+      {/* <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} envMap={envMap} envMapIntensity={1} /> */}
        <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
         transmission={1}  // Fully transparent
-        opacity={0.2}  // Fully opaque but will be transparent due to transmission
+        opacity={1}  // Fully opaque but will be transparent due to transmission
         // transparent={true}  // Enable transparency
-        roughness={0}  // Smooth like glass
+        roughness={0.1}  // Smooth like glass
         reflectivity={0.5}  // Adjust reflection intensity
-        metalness={0}  // Glass is non-metallic
+        metalness={0.4}  // Glass is non-metallic
         ior={1.45}  // Typical for glass (Index of Refraction)
-        thickness={0.00001}  // Controls the refraction and look of thickness
+        thickness={0.1}  // Controls the refraction and look of thickness
         // attenuationColor="#ffffff"  // The color of the glass when light passes through
         attenuationDistance={2.5}  // Distance at which the glass becomes less transparent
         envMapIntensity={0.1}  // Control the strength of the reflections
@@ -92,6 +100,11 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
         // color='black'
         color={color} //'#7400cc' // '#8a00f3'
       />
+      {/* <meshStandardMaterial 
+        metalness={1}
+        roughness={1}
+        color={color}
+      /> */}
     </mesh>
   );
 };

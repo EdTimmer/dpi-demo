@@ -48,11 +48,19 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
 
   return (
     <mesh geometry={textGeometry} rotation={rotation} position={position} scale={[0.33, 0.33, 0.33]} renderOrder={2}>
-      <meshStandardMaterial
+      {/* <meshStandardMaterial
         color={'#fbd641'}
         metalness={0.6}
         roughness={0.1}
-     />
+     /> */}
+     <meshPhysicalMaterial
+        color={'#fbd641'}
+        metalness={1}
+        roughness={0.2}
+        reflectivity={1}
+        clearcoat={1}     // Adds a clear coat layer
+        clearcoatRoughness={0.1}  // Polished surface
+      />
       
       {/* <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
