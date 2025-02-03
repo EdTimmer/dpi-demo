@@ -2,10 +2,10 @@ import {
   AppContainer,
   Row,
 } from './App.styles'
-import LogoOneWrapper from './components/LogoOneWrapper';
-import LogoTwoWrapper from './components/LogoTwoWrapper';
-import LogoThreeWrapper from './components/LogoThreeWrapper';
-import LogoFourWrapper from './components/LogoFourWrapper';
+import LogoOneWrapper from './components/LogoOne/LogoOneWrapper';
+import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
+import LogoThreeWrapper from './components/LogoThree/LogoThreeWrapper';
+import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
 
 function App() {
   return (

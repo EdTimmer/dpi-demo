@@ -10,15 +10,17 @@ import GreenDotGlass from './GreenDotGlass';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
+  initialRotation: number;
+  rotationAmount: number;
 }
 
-function LogoFourGroup({ isMouseEntered, isMouseLeft }: Props) {
+function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
   const LogoFourGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (LogoFourGroupRef.current) {
-      LogoFourGroupRef.current.rotation.y = Math.PI;
+      LogoFourGroupRef.current.rotation.y = initialRotation;
     }
   }, []);
 
@@ -34,13 +36,13 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft }: Props) {
     if (
       isMouseEntered &&
       LogoFourGroupRef.current &&
-      LogoFourGroupRef.current.rotation.y <= Math.PI * 2
+      LogoFourGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
       LogoFourGroupRef.current.rotation.y += 2 * delta;
     } else if (
       isMouseLeft &&
       LogoFourGroupRef.current &&
-      LogoFourGroupRef.current.rotation.y >= Math.PI
+      LogoFourGroupRef.current.rotation.y >= initialRotation
     ) {
       LogoFourGroupRef.current.rotation.y -= 2 * delta;
     }

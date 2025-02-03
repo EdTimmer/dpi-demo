@@ -3,20 +3,22 @@ import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import * as THREE from 'three';
 import Cushion from './Cushion';
-import DeloitteDigitalLogoGroup from '../DeloitteDigitalLogoGroup';
+import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
+  initialRotation: number;
+  rotationAmount: number;
 }
 
-function LogoThreeGroup({ isMouseEntered, isMouseLeft }: Props) {
+function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
   const LogoThreeGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (LogoThreeGroupRef.current) {
-      LogoThreeGroupRef.current.rotation.y = Math.PI;
+      LogoThreeGroupRef.current.rotation.y = initialRotation;
     }
   }, []);
 
@@ -32,13 +34,13 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft }: Props) {
     if (
       isMouseEntered &&
       LogoThreeGroupRef.current &&
-      LogoThreeGroupRef.current.rotation.y <= Math.PI * 2
+      LogoThreeGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
       LogoThreeGroupRef.current.rotation.y += 2 * delta;
     } else if (
       isMouseLeft &&
       LogoThreeGroupRef.current &&
-      LogoThreeGroupRef.current.rotation.y >= Math.PI
+      LogoThreeGroupRef.current.rotation.y >= initialRotation
     ) {
       LogoThreeGroupRef.current.rotation.y -= 2 * delta;
     }

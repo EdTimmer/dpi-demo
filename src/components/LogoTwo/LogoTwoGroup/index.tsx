@@ -8,15 +8,17 @@ import Cushion from './Cushion';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
+  initialRotation: number;
+  rotationAmount: number;
 }
 
-function LogoTwoGroup({ isMouseEntered, isMouseLeft }: Props) {
+function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
   const logoTwoGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (logoTwoGroupRef.current) {
-      logoTwoGroupRef.current.rotation.y = Math.PI;
+      logoTwoGroupRef.current.rotation.y = initialRotation;
     }
   }, []);
 
@@ -32,13 +34,13 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft }: Props) {
     if (
       isMouseEntered &&
       logoTwoGroupRef.current &&
-      logoTwoGroupRef.current.rotation.y <= Math.PI * 2
+      logoTwoGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
       logoTwoGroupRef.current.rotation.y += 2 * delta;
     } else if (
       isMouseLeft &&
       logoTwoGroupRef.current &&
-      logoTwoGroupRef.current.rotation.y >= Math.PI
+      logoTwoGroupRef.current.rotation.y >= initialRotation
     ) {
       logoTwoGroupRef.current.rotation.y -= 2 * delta;
     }

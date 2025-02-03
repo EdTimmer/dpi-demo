@@ -9,15 +9,17 @@ import GreenDotMetalTwo from './GreenDotMetalTwo';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
+  initialRotation: number;
+  rotationAmount: number;
 }
 
-function LogoOneGroup({ isMouseEntered, isMouseLeft }: Props) {
+function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
   const logoOneGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (logoOneGroupRef.current) {
-      logoOneGroupRef.current.rotation.y = Math.PI;
+      logoOneGroupRef.current.rotation.y = initialRotation;
     }
   }, []);
 
@@ -33,13 +35,13 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft }: Props) {
     if (
       isMouseEntered &&
       logoOneGroupRef.current &&
-      logoOneGroupRef.current.rotation.y <= Math.PI * 2
+      logoOneGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
       logoOneGroupRef.current.rotation.y += 2 * delta;
     } else if (
       isMouseLeft &&
       logoOneGroupRef.current &&
-      logoOneGroupRef.current.rotation.y >= Math.PI
+      logoOneGroupRef.current.rotation.y >= initialRotation
     ) {
       logoOneGroupRef.current.rotation.y -= 2 * delta;
     }

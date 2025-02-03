@@ -39,9 +39,9 @@ const LogoFourWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} />
-        <directionalLight ref={leftLightRef} position={[0.5, -2.0, 10]} intensity={0.2} />
-        <directionalLight ref={leftLightRefTwo} position={[0.5, 2.0, 10]} intensity={0.05} />
+        <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
+        <directionalLight ref={leftLightRef} position={[0, -2.0, 10]} intensity={0.2} />
+        <directionalLight ref={leftLightRefTwo} position={[0, 2.0, 10]} intensity={0.05} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        

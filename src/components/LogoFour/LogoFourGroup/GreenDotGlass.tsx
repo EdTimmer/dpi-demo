@@ -11,7 +11,7 @@ const GreenDotGlass = ({ position, size }: Props) => {
         color={'#1df800'}
         metalness={0.3}
         roughness={0}
-     />
+      />
       {/* <pointLight
         position={[0, 0, 0]}  // Inside the sphere
         intensity={10}

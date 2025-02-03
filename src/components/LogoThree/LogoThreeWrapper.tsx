@@ -25,7 +25,7 @@ const LogoThreeWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={0.5} />
-        <LogoThreeGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} />
+        <LogoThreeGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
         <directionalLight position={[0, 10, 10]} />
         <directionalLight position={[10, -10, 0]} />
         <directionalLight position={[-10, -10, 0]} />
