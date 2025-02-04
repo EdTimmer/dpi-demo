@@ -24,9 +24,10 @@ const GreenDotGlass = ({ position, size }: Props) => {
         // envMap={envMap}
       /> */}
       <meshStandardMaterial
-        color={'#1df800'}
-        metalness={0.3}
-        roughness={0}
+        color={'#4dff29'}
+        metalness={0}
+        roughness={1}
+        opacity={1}
       />
       {/* <pointLight
         position={[0, 0, 0]}  // Inside the sphere

@@ -1,6 +1,7 @@
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LogoThreeGroup from './LogoThreeGroup';
 
 const LogoThreeWrapper = () => {
@@ -16,6 +17,18 @@ const LogoThreeWrapper = () => {
     setIsMouseLeft(true);
   }
 
+  const leftLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const leftLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
+
+  useEffect(() => {
+    if (leftLightRef.current) {
+      leftLightRef.current.lookAt(-1, -0.9, 0);
+    }
+    if (leftLightRefTwo.current) {
+      leftLightRefTwo.current.lookAt(-1, -0.9, 0);
+    }
+  }, []);
+
   return (
     <div 
       style={{ width: `300px`, height: `300px`, cursor: `pointer`}}
@@ -26,9 +39,9 @@ const LogoThreeWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={0.5} />
         <LogoThreeGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
-        <directionalLight position={[0, 10, 10]} />
-        <directionalLight position={[10, -10, 0]} />
-        <directionalLight position={[-10, -10, 0]} />
+        {/* <directionalLight ref={leftLightRef} position={[0, -2.0, 10]} intensity={0.2} />
+        <directionalLight ref={leftLightRefTwo} position={[0, 2.0, 10]} intensity={0.05} /> */}
+        <directionalLight position={[0, 0, 10]} intensity={1} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        

@@ -23,10 +23,10 @@ const LogoFourWrapper = () => {
 
   useEffect(() => {
     if (leftLightRef.current) {
-      leftLightRef.current.lookAt(-1, -0.9, 0);
+      leftLightRef.current.lookAt(-2, -0.9, 0);
     }
     if (leftLightRefTwo.current) {
-      leftLightRefTwo.current.lookAt(-1, -0.9, 0);
+      leftLightRefTwo.current.lookAt(-2, 0.9, 0);
     }
   }, []);
 

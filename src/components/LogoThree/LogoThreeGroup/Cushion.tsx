@@ -26,8 +26,9 @@ const Cushion = ({ position, rotation, size, scale }: Props) => {
         envMap={envMap}
         metalness={1.0}
         roughness={0.0}
-        opacity={0}
+        opacity={1.0}
         envMapIntensity={1.0}
+        transparent
       />
     </mesh>
   );

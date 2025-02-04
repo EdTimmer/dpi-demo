@@ -47,7 +47,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   });
 
   return (
-    <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoThreeGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoThreeGroupRef}>
       {/* <TextBold text={'Deloitte'} position={[0, 0.3, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.54} depth={0.5} color={'#fff'} />
       <TextLight text={'Digital'} position={[-0.45, -0.35, 0.1]} rotation={new THREE.Euler(0, 0, 0)} size={0.48} depth={0.5} color={'#fff'} /> */}
       <DeloitteDigitalLogoGroup />

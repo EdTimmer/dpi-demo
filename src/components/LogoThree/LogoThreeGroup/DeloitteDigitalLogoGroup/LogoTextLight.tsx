@@ -26,7 +26,7 @@ const LogoTextLight = ({ position, rotation, text }: Props) => {
       const textOptions = {
         font,
         size: 1.35,
-        depth: 1.5,
+        depth: 0.8,
         curveSegments: 12,
         bevelEnabled: false,
         bevelThickness: 0.1,
@@ -48,22 +48,27 @@ const LogoTextLight = ({ position, rotation, text }: Props) => {
 
   return (
     <mesh geometry={textGeometry} rotation={rotation} position={position} renderOrder={3}>
-      <meshPhysicalMaterial
+      {/* <meshPhysicalMaterial
         clearcoat={1}  // Shiny surface effect
         transmission={1}  // Fully transparent
         opacity={0.2}  // Fully opaque but will be transparent due to transmission
-        // transparent={true}  // Enable transparency
         roughness={0}  // Smooth like glass
         reflectivity={0.5}  // Adjust reflection intensity
         metalness={0}  // Glass is non-metallic
         ior={1.45}  // Typical for glass (Index of Refraction)
         thickness={0.00001}  // Controls the refraction and look of thickness
-        // attenuationColor="#ffffff"  // The color of the glass when light passes through
         attenuationDistance={2.5}  // Distance at which the glass becomes less transparent
         envMapIntensity={0.5}  // Control the strength of the reflections
-        // color="#999999"  // Use a slightly grey color instead of pure white
-        // color='black'
         color='#000' // '#ff0000'
+      /> */}
+      <meshStandardMaterial 
+        metalness={1.0}
+        roughness={0.5}
+        color={`#000730`}
+        // envMap={envMap}
+        // envMapIntensity={textMaterialProps.envMapIntensity}
+        opacity={1.0}
+        transparent
       />
     </mesh>
   );
