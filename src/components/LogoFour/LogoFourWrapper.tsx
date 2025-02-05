@@ -18,15 +18,15 @@ const LogoFourWrapper = () => {
     setIsMouseLeft(true);
   }
 
-  const leftLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const leftLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
+  const bottomLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const topLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
 
   useEffect(() => {
-    if (leftLightRef.current) {
-      leftLightRef.current.lookAt(-2, -0.9, 0);
+    if (bottomLightRef.current) {
+      bottomLightRef.current.lookAt(-2, -0.9, 0);
     }
-    if (leftLightRefTwo.current) {
-      leftLightRefTwo.current.lookAt(-2, 0.9, 0);
+    if (topLightRefTwo.current) {
+      topLightRefTwo.current.lookAt(-2, 0.9, 0);
     }
   }, []);
 
@@ -40,8 +40,8 @@ const LogoFourWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
         <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
-        <directionalLight ref={leftLightRef} position={[0, -2.0, 10]} intensity={0.2} />
-        <directionalLight ref={leftLightRefTwo} position={[0, 2.0, 10]} intensity={0.05} />
+        <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
+        <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />        
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        

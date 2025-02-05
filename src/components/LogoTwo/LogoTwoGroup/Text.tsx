@@ -9,10 +9,15 @@ interface Props {
   text: string;
   size: number;
   depth: number;
-  color: string;
+  textMaterialProps: {
+    color: string;
+    opacity: number;
+    roughness: number;
+    metalness: number;
+  }
 }
 
-const Text = ({ position, rotation, text, size, depth, color }: Props) => {
+const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Props) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
@@ -52,23 +57,29 @@ const Text = ({ position, rotation, text, size, depth, color }: Props) => {
 
   return (
     <mesh ref={meshRef} geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
-      {/* <meshStandardMaterial metalness={1.0} roughness={0.0} color={color} envMap={envMap} envMapIntensity={1} /> */}
-       <meshPhysicalMaterial
-        clearcoat={1}  // Shiny surface effect
-        transmission={1}  // Fully transparent
-        opacity={1}  // Fully opaque but will be transparent due to transmission
-        // transparent={true}  // Enable transparency
-        roughness={0.1}  // Smooth like glass
-        reflectivity={0.5}  // Adjust reflection intensity
-        metalness={0.4}  // Glass is non-metallic
-        ior={1.45}  // Typical for glass (Index of Refraction)
-        thickness={0.1}  // Controls the refraction and look of thickness
-        // attenuationColor="#ffffff"  // The color of the glass when light passes through
-        attenuationDistance={2.5}  // Distance at which the glass becomes less transparent
-        envMapIntensity={0.1}  // Control the strength of the reflections
-        // color="#999999"  // Use a slightly grey color instead of pure white
-        // color='black'
-        color={color} //'#7400cc' // '#8a00f3'
+       {/* <meshPhysicalMaterial
+        color={textMaterialProps.color} //'#7400cc' // '#8a00f3'
+        clearcoat={textMaterialProps.clearcoat}  // Shiny surface effect
+        clearcoatRoughness={textMaterialProps.clearcoatRoughness}  // Roughness of the clearcoat
+        transmission={textMaterialProps.transmission}  // Fully transparent
+        opacity={textMaterialProps.opacity}  // Fully opaque but will be transparent due to transmission
+        transparent  // Enable transparency
+        roughness={textMaterialProps.roughness}  // Smooth like glass
+        reflectivity={textMaterialProps.reflectivity}  // Adjust reflection intensity
+        metalness={textMaterialProps.metalness}  // Glass is non-metallic
+        ior={textMaterialProps.ior}  // Typical for glass (Index of Refraction)
+        thickness={textMaterialProps.thickness}  // Controls the refraction and look of thickness        
+        attenuationDistance={textMaterialProps.attenuationDistance}  // Distance at which the glass becomes less transparent
+        attenuationColor={textMaterialProps.attenuationColor}  // The color of the glass when light passes through        
+      /> */}
+      <meshStandardMaterial 
+        metalness={textMaterialProps.metalness}
+        roughness={textMaterialProps.roughness}
+        color={textMaterialProps.color}
+        // envMap={envMap}
+        // envMapIntensity={textMaterialProps.envMapIntensity}
+        opacity={textMaterialProps.opacity}
+        transparent
       />
     </mesh>
   );

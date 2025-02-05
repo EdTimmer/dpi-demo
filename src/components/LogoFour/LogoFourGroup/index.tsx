@@ -49,7 +49,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   });
 
   return (
-    <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoFourGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoFourGroupRef}>
       <LogoTextBold text={'Deloitte'} position={[-0.085, 0.05, 0.3]} rotation={new THREE.Euler(0, 0, 0)} />
       <GreenDotGlass size={0.35} position={[1.35, -0.16, 0.35]} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} />

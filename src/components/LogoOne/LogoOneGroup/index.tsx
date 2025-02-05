@@ -66,8 +66,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
     color: '#4dff29',
     metalness: 0,
-    roughness: 1.0,
-    envMapIntensity: 1.0,
+    roughness: 0.5,
     opacity: 1.0,
   });
 
@@ -75,15 +74,18 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#000',    
-    metalness: 1,
-    roughness: 0,
-    envMapIntensity: 1.0,
+    color: '#000',
+    emissive: '#000',
+    specular: '#fff',
+    shininess: 3, 
     opacity: 1,
   });
 
   useEffect(() => {
-    const guiOne = new GUI({ width: 350 });
+    const guiOne = new GUI({ 
+      width: 350,
+      title: 'Top Left Pin'
+    });
     // Position the GUI
     guiOne.domElement.style.position = 'absolute'; // Customize the position
     guiOne.domElement.style.left = '10px'; // Move this panel to the left side of the screen
@@ -146,7 +148,6 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       color: sphereMaterialProps.color,
       metalness: sphereMaterialProps.metalness,
       roughness: sphereMaterialProps.roughness,
-      envMapIntensity: sphereMaterialProps.envMapIntensity,
       opacity: sphereMaterialProps.opacity,
     };
 
@@ -171,13 +172,6 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .onChange((value: number) => {
         setSphereMaterialProps(prev => ({ ...prev, roughness: value }));
       });
-
-    sphereControllersRef.current.envMapIntensityController = sphereFolder
-      .add(localSphereProps, 'envMapIntensity', 0, 2, 0.01)
-      .name('envMapIntensity')
-      .onChange((value: number) => {
-        setSphereMaterialProps(prev => ({ ...prev, opacity: value }));
-      });
     
     sphereControllersRef.current.opacityController = sphereFolder
       .add(localSphereProps, 'opacity', 0, 1, 0.01)
@@ -190,41 +184,54 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // CUSHION FOLDER
     const cushionFolder = guiOne.addFolder('Cushion');
     cushionFolderRef.current = cushionFolder;
+
+    const localCushionProps = {
+      color: cushionMaterialProps.color,
+      emissive: cushionMaterialProps.emissive,
+      specular: cushionMaterialProps.specular,
+      shininess: cushionMaterialProps.shininess,
+      opacity: cushionMaterialProps.opacity,
+    };
     // Add controls for each property
     cushionControllersRef.current.colorController = cushionFolder
-      .addColor(cushionMaterialProps, 'color')
+      .addColor(localCushionProps, 'color')
       .name('Color')
       .onChange((value: string) => {
         setCushionMaterialProps(prev => ({ ...prev, color: value }));
-      });  
-
-    cushionControllersRef.current.metalnessController = cushionFolder
-      .add(cushionMaterialProps, 'metalness', 0, 1, 0.01)
-      .name('Metalness')
-      .onChange((value: number) => {
-        setCushionMaterialProps(prev => ({ ...prev, metalness: value }));
+      });
+      
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setCushionMaterialProps(prev => ({ ...prev, emissive: value }));
       });
 
-    cushionControllersRef.current.roughnessController = cushionFolder
-      .add(cushionMaterialProps, 'roughness', 0, 1, 0.01)
-      .name('Roughness')
-      .onChange((value: number) => {
-        setCushionMaterialProps(prev => ({ ...prev, roughness: value }));
+    cushionControllersRef.current.specularController = cushionFolder
+      .addColor(localCushionProps, 'specular')
+      .name('Specular')
+      .onChange((value: string) => {
+        setCushionMaterialProps(prev => ({ ...prev, specular: value }));
       });
 
-    cushionControllersRef.current.envMapIntensityController = cushionFolder
-      .add(cushionMaterialProps, 'envMapIntensity', 0, 2, 0.01)
-      .name('Env Intensity')
+    cushionControllersRef.current.shininessController = cushionFolder
+      .add(localCushionProps, 'shininess', 0, 100, 1)
+      .name('Shininess')
       .onChange((value: number) => {
-        setCushionMaterialProps(prev => ({ ...prev, envMapIntensity: value }));
+        setCushionMaterialProps(prev => ({ ...prev, shininess: value }));
       });
+
 
     cushionControllersRef.current.opacityController = cushionFolder
-      .add(cushionMaterialProps, 'opacity', 0, 1, 0.01)
+      .add(localCushionProps, 'opacity', 0, 1, 0.01)
       .name('Opacity')
       .onChange((value: number) => {
         setCushionMaterialProps(prev => ({ ...prev, opacity: value }));
       });
+
+
+
+    
     
     // Cleanup on unmount
     return () => {
@@ -233,7 +240,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   }, []);
 
   return (
-    <group position={[0, -0.5, 0]} scale={[1.0, 1.0, 1.0]} ref={logoOneGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoOneGroupRef}>
       <Text text={'D'} position={[-0.1, 0.05, 0.3]} rotation={new THREE.Euler(0, 0, 0)} size={1.7} depth={0.5} textMaterialProps={textMaterialProps} />
       <GreenDotMetalTwo size={0.25} position={[0.8, -0.55, 0.37]} sphereMaterialProps={sphereMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
