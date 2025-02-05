@@ -90,7 +90,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     // Position the GUI
     guiFour.domElement.style.position = 'absolute';
     guiFour.domElement.style.right = '10px';
-    guiFour.domElement.style.top = '500px';
+    guiFour.domElement.style.top = '400px';
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiFour.addFolder('Text Bold');
