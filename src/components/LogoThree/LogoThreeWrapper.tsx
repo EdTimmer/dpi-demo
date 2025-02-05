@@ -39,8 +39,6 @@ const LogoThreeWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={0.5} />
         <LogoThreeGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
-        {/* <directionalLight ref={leftLightRef} position={[0, -2.0, 10]} intensity={0.2} />
-        <directionalLight ref={leftLightRefTwo} position={[0, 2.0, 10]} intensity={0.05} /> */}
         <directionalLight position={[0, 0, 10]} intensity={1} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>

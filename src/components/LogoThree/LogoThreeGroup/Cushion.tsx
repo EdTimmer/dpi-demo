@@ -7,9 +7,16 @@ interface Props {
   rotation: THREE.Euler;
   size: number;
   scale: [number, number, number];
+  cushionMaterialProps: {
+    color: string;
+    metalness: number;
+    roughness: number;
+    opacity: number;
+    envMapIntensity: number;
+  },
 }
 
-const Cushion = ({ position, rotation, size, scale }: Props) => {
+const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
   const texture = useLoader(THREE.TextureLoader, '/images/ripples.jpg');
@@ -24,10 +31,11 @@ const Cushion = ({ position, rotation, size, scale }: Props) => {
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial
         envMap={envMap}
-        metalness={1.0}
-        roughness={0.0}
-        opacity={1.0}
-        envMapIntensity={1.0}
+        metalness={cushionMaterialProps.metalness}
+        roughness={cushionMaterialProps.roughness}
+        opacity={cushionMaterialProps.opacity}
+        envMapIntensity={cushionMaterialProps.envMapIntensity}
+        color={cushionMaterialProps.color}
         transparent
       />
     </mesh>

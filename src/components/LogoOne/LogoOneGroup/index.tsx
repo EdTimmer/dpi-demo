@@ -227,12 +227,8 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Opacity')
       .onChange((value: number) => {
         setCushionMaterialProps(prev => ({ ...prev, opacity: value }));
-      });
+      });       
 
-
-
-    
-    
     // Cleanup on unmount
     return () => {
       guiOne.destroy();

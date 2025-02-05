@@ -7,9 +7,15 @@ interface Props {
   position: [number, number, number];
   rotation: THREE.Euler;
   text: string;
+  textBoldMaterialProps: {
+    color: string;
+    metalness: number;
+    roughness: number;
+    opacity: number;
+  },
 }
 
-const LogoTextBold = ({ position, rotation, text }: Props) => {
+const LogoTextBold = ({ position, rotation, text, textBoldMaterialProps }: Props) => {
   const [font, setFont] = useState<Font | null>(null);
 
   useEffect(() => {
@@ -48,26 +54,11 @@ const LogoTextBold = ({ position, rotation, text }: Props) => {
 
   return (
     <mesh geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
-      {/* <meshPhysicalMaterial
-        clearcoat={1}  // Shiny surface effect
-        transmission={1}  // Fully transparent
-        opacity={0.2}  // Fully opaque but will be transparent due to transmission
-        roughness={0}  // Smooth like glass
-        reflectivity={0.5}  // Adjust reflection intensity
-        metalness={0}  // Glass is non-metallic
-        ior={1.45}  // Typical for glass (Index of Refraction)
-        thickness={0.00001}  // Controls the refraction and look of thickness
-        attenuationDistance={2.5}  // Distance at which the glass becomes less transparent
-        envMapIntensity={0.1}  // Control the strength of the reflections
-        color='#000' // '#7400cc' // '#8a00f3'
-      /> */}
       <meshStandardMaterial 
-        metalness={1.0}
-        roughness={0.5}
-        color={`#000730`}
-        // envMap={envMap}
-        // envMapIntensity={textMaterialProps.envMapIntensity}
-        opacity={1.0}
+        metalness={textBoldMaterialProps.metalness}
+        roughness={textBoldMaterialProps.roughness}
+        color={textBoldMaterialProps.color}
+        opacity={textBoldMaterialProps.opacity}
         transparent
       />
     </mesh>
