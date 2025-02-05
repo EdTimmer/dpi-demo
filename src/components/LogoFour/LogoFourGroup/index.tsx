@@ -66,7 +66,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const sphereControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
     color: '#1df800',
-    metalness: 0.3,
+    metalness: 0,
     roughness: 1.0,
     opacity: 1.0,
   });
