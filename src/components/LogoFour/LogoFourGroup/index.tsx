@@ -38,13 +38,13 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
       LogoFourGroupRef.current &&
       LogoFourGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
-      LogoFourGroupRef.current.rotation.y += 2 * delta;
+      LogoFourGroupRef.current.rotation.y += 3 * delta;
     } else if (
       isMouseLeft &&
       LogoFourGroupRef.current &&
       LogoFourGroupRef.current.rotation.y >= initialRotation
     ) {
-      LogoFourGroupRef.current.rotation.y -= 2 * delta;
+      LogoFourGroupRef.current.rotation.y -= 3 * delta;
     }
   });
 
@@ -84,7 +84,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   useEffect(() => {
     const guiFour = new GUI({
       title: 'Bottom Right Pin',
-      width: 300,
+      width: 350,
     });
 
     // Position the GUI

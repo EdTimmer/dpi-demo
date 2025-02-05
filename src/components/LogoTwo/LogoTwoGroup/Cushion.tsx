@@ -11,6 +11,8 @@ interface Props {
     opacity: number;
     roughness: number;
     metalness: number;
+    emissive: string;
+    emissiveIntensity: number;
   }
 }
 
@@ -40,6 +42,8 @@ const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Prop
         roughness={cushionMaterialProps.roughness}
         color={cushionMaterialProps.color}
         opacity={cushionMaterialProps.opacity}
+        emissive={cushionMaterialProps.emissive}
+        emissiveIntensity={cushionMaterialProps.emissiveIntensity}
         transparent
       />
     </mesh>

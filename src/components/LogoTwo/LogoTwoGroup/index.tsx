@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Text from './Text';
 import Cushion from './Cushion';
-import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
@@ -29,7 +28,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     
     // The small 'breathing' rotation in X:
     if (logoTwoGroupRef.current) {
-      logoTwoGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.1;
+      logoTwoGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
     }
   
     // Then the Y rotation on mouse enter/leave, scaled by delta:
@@ -38,13 +37,13 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       logoTwoGroupRef.current &&
       logoTwoGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
-      logoTwoGroupRef.current.rotation.y += 2 * delta;
+      logoTwoGroupRef.current.rotation.y += 3 * delta;
     } else if (
       isMouseLeft &&
       logoTwoGroupRef.current &&
       logoTwoGroupRef.current.rotation.y >= initialRotation
     ) {
-      logoTwoGroupRef.current.rotation.y -= 2 * delta;
+      logoTwoGroupRef.current.rotation.y -= 3 * delta;
     }
   });
 
@@ -68,6 +67,8 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     opacity: 1.0,
     roughness: 0.1,     
     metalness: 0.1,
+    emissive: '#fff',
+    emissiveIntensity: 0,
   });
 
   useEffect(() => {
@@ -147,6 +148,8 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       opacity: cushionMaterialProps.opacity,
       roughness: cushionMaterialProps.roughness,
       metalness: cushionMaterialProps.metalness,
+      emissive: cushionMaterialProps.emissive,
+      emissiveIntensity: cushionMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -176,6 +179,20 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Metalness')
       .onChange((value: number) => {
         setCushionMaterialProps(prev => ({ ...prev, metalness: value }));
+      });
+
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setCushionMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    cushionControllersRef.current.emissiveIntensityController = cushionFolder
+      .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setCushionMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
       });
 
     return () => {

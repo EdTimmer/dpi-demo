@@ -29,7 +29,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     
     // The small 'breathing' rotation in X:
     if (logoOneGroupRef.current) {
-      logoOneGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.05;
+      logoOneGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
     }
   
     // Then the Y rotation on mouse enter/leave, scaled by delta:
@@ -38,13 +38,13 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       logoOneGroupRef.current &&
       logoOneGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
-      logoOneGroupRef.current.rotation.y += 2 * delta;
+      logoOneGroupRef.current.rotation.y += 3 * delta;
     } else if (
       isMouseLeft &&
       logoOneGroupRef.current &&
       logoOneGroupRef.current.rotation.y >= initialRotation
     ) {
-      logoOneGroupRef.current.rotation.y -= 2 * delta;
+      logoOneGroupRef.current.rotation.y -= 3 * delta;
     }
   });
 
@@ -68,6 +68,8 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     metalness: 0,
     roughness: 0.5,
     opacity: 1.0,
+    emissive: '#000',
+    emissiveIntensity: 0,
   });
 
   // CUSHION GUI REFS
@@ -75,10 +77,11 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
     color: '#000',
-    emissive: '#000',
     specular: '#fff',
     shininess: 3, 
     opacity: 1,
+    emissive: '#000',
+    emissiveIntensity: 0,
   });
 
   useEffect(() => {
@@ -149,6 +152,8 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       metalness: sphereMaterialProps.metalness,
       roughness: sphereMaterialProps.roughness,
       opacity: sphereMaterialProps.opacity,
+      emissive: sphereMaterialProps.emissive,
+      emissiveIntensity: sphereMaterialProps.emissiveIntensity,
     };
 
     // Add controls for each property
@@ -180,6 +185,20 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
         setSphereMaterialProps(prev => ({ ...prev, opacity: value }));
       });
 
+    sphereControllersRef.current.emissiveController = sphereFolder
+      .addColor(localSphereProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setSphereMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    sphereControllersRef.current.emissiveIntensityController = sphereFolder
+      .add(localSphereProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setSphereMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
+      });
+
 
     // CUSHION FOLDER
     const cushionFolder = guiOne.addFolder('Cushion');
@@ -191,6 +210,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       specular: cushionMaterialProps.specular,
       shininess: cushionMaterialProps.shininess,
       opacity: cushionMaterialProps.opacity,
+      emissiveIntensity: cushionMaterialProps.emissiveIntensity,
     };
     // Add controls for each property
     cushionControllersRef.current.colorController = cushionFolder
@@ -198,13 +218,6 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Color')
       .onChange((value: string) => {
         setCushionMaterialProps(prev => ({ ...prev, color: value }));
-      });
-      
-    cushionControllersRef.current.emissiveController = cushionFolder
-      .addColor(localCushionProps, 'emissive')
-      .name('Emissive')
-      .onChange((value: string) => {
-        setCushionMaterialProps(prev => ({ ...prev, emissive: value }));
       });
 
     cushionControllersRef.current.specularController = cushionFolder
@@ -227,7 +240,21 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Opacity')
       .onChange((value: number) => {
         setCushionMaterialProps(prev => ({ ...prev, opacity: value }));
-      });       
+      });
+    
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setCushionMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    cushionControllersRef.current.emissiveIntensityController = cushionFolder
+      .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setCushionMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
+      });
 
     // Cleanup on unmount
     return () => {

@@ -28,7 +28,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     
     // The small 'breathing' rotation in X:
     if (LogoThreeGroupRef.current) {
-      LogoThreeGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.05;
+      LogoThreeGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
     }
   
     // Then the Y rotation on mouse enter/leave, scaled by delta:
@@ -37,13 +37,13 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       LogoThreeGroupRef.current &&
       LogoThreeGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
-      LogoThreeGroupRef.current.rotation.y += 2 * delta;
+      LogoThreeGroupRef.current.rotation.y += 3 * delta;
     } else if (
       isMouseLeft &&
       LogoThreeGroupRef.current &&
       LogoThreeGroupRef.current.rotation.y >= initialRotation
     ) {
-      LogoThreeGroupRef.current.rotation.y -= 2 * delta;
+      LogoThreeGroupRef.current.rotation.y -= 3 * delta;
     }
   });
 
@@ -90,13 +90,13 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
 
   useEffect(() => {
     const guiThree = new GUI({
-      width: 300,
+      width: 350,
       title: 'Bottom Left Pin'
     });
     // Position the GUI
     guiThree.domElement.style.position = 'absolute';
     guiThree.domElement.style.left = '10px';
-    guiThree.domElement.style.top = '500px';
+    guiThree.domElement.style.top = '550px';
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiThree.addFolder('Text Bold');
