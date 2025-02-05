@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
-import { Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { useEffect, useState } from 'react';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { useState } from 'react';
 
 import LogoOneGroup from './LogoOneGroup';
 
@@ -27,8 +27,6 @@ const LogoOneWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
         <LogoOneGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
-        {/* <directionalLight position={[-5, -5, 10]} intensity={1} /> */}
-        {/* <directionalLight position={[0, 5, 10]} intensity={1} /> */}
         <directionalLight position={[5, -5, 10]} intensity={1} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>

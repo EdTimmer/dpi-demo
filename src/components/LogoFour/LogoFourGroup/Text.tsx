@@ -3,17 +3,6 @@ import * as THREE from 'three';
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
-// Make shader material available in JSX
-// extend({ UraniumTextMaterial: TextUraniumMaterial });
-
-// declare global {
-//   namespace JSX {
-//     interface IntrinsicElements {
-//       uraniumTextMaterial: ReactThreeFiber.Object3DNode<THREE.ShaderMaterial, typeof TextUraniumMaterial>;
-//     }
-//   }
-// }
-
 interface Props {
   position: [number, number, number];
   rotation: THREE.Euler;

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import colors from './styles/colors';
-import lakeImage from '/images/lake-purple.jpg';
 
 export const AppContainer = styled.div`
   position: relative;
