@@ -51,7 +51,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textBoldFolderRef = useRef<GUI | null>(null);
   const textBoldControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
-    color: '#000730',
+    color: '#000',
     metalness: 1.0,
     roughness: 0.5,
     opacity: 1.0,
@@ -61,7 +61,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textLightFolderRef = useRef<GUI | null>(null);
   const textLightControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
-    color: '#000730',
+    color: '#000',
     metalness: 1.0,
     roughness: 0.5,
     opacity: 1.0,

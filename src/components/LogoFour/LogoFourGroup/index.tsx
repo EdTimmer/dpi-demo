@@ -67,7 +67,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
     color: '#1df800',
     metalness: 0.3,
-    roughness: 0,
+    roughness: 1.0,
     opacity: 1.0,
   });
 
@@ -242,7 +242,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   return (
     <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoFourGroupRef}>
       <LogoTextBold text={'Deloitte'} position={[-0.085, 0.05, 0.3]} rotation={new THREE.Euler(0, 0, 0)} textBoldMaterialProps={textBoldMaterialProps} />
-      <GreenDotGlass size={0.35} position={[1.35, -0.16, 0.35]} sphereMaterialProps={sphereMaterialProps} />
+      <GreenDotGlass size={0.3} position={[1.35, -0.18, 0.35]} sphereMaterialProps={sphereMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );

@@ -31,7 +31,7 @@ const LogoTextLight = ({ position, rotation, text, textLightMaterialProps }: Pro
   
       const textOptions = {
         font,
-        size: 1.35,
+        size: 1.3,
         depth: 0.8,
         curveSegments: 12,
         bevelEnabled: false,

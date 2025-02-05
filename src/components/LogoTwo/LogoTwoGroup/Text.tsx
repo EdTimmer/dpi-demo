@@ -14,6 +14,8 @@ interface Props {
     opacity: number;
     roughness: number;
     metalness: number;
+    emissive: string;
+    emissiveIntensity: number;
   }
 }
 
@@ -80,6 +82,8 @@ const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Prop
         // envMapIntensity={textMaterialProps.envMapIntensity}
         opacity={textMaterialProps.opacity}
         transparent
+        emissive={textMaterialProps.emissive}
+        emissiveIntensity={textMaterialProps.emissiveIntensity}
       />
     </mesh>
   );

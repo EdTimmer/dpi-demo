@@ -31,9 +31,9 @@ function DeloitteDigitalLogoGroup({ textBoldMaterialProps, textLightMaterialProp
 
   return (
     <group position={[0, -0.05, 0.3]} scale={[0.3, 0.3, 0.3]} ref={logoGroupRef} rotation={new THREE.Euler(0, 0, 0)}>        
-      <LogoTextBold text={'Deloitte'} position={[-0.15, 1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} textBoldMaterialProps={textBoldMaterialProps} />
-      <LogoTextLight text={'Digital'} position={[-1.62, -1.1, 0]} rotation={new THREE.Euler(0, 0, 0)} textLightMaterialProps={textLightMaterialProps} />
-      <GreenDotGlass size={0.35} position={[4.3, 0.5, 0]} sphereMaterialProps={sphereMaterialProps} />
+      <LogoTextBold text={'Deloitte'} position={[-0.15, 1.0, 0]} rotation={new THREE.Euler(0, 0, 0)} textBoldMaterialProps={textBoldMaterialProps} />
+      <LogoTextLight text={'Digital'} position={[-1.7, -1.05, 0]} rotation={new THREE.Euler(0, 0, 0)} textLightMaterialProps={textLightMaterialProps} />
+      <GreenDotGlass size={0.25} position={[4.2, 0.3, 0]} sphereMaterialProps={sphereMaterialProps} />
     </group>    
   );
 }

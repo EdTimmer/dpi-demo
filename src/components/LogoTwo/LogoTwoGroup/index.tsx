@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Text from './Text';
 import Cushion from './Cushion';
+import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
@@ -54,7 +55,9 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     color: '#fff',
     opacity: 1.0,
     roughness: 0.2,       
-    metalness: 0.2,    
+    metalness: 0.2,
+    emissive: '#fff',
+    emissiveIntensity: 0.12,
   });
 
   // CUSHION GUI REFS
@@ -87,6 +90,8 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       opacity: textMaterialProps.opacity,
       roughness: textMaterialProps.roughness,
       metalness: textMaterialProps.metalness,
+      emissive: textMaterialProps.emissive,
+      emissiveIntensity: textMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -116,6 +121,20 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Metalness')
       .onChange((value: number) => {
         setTextMaterialProps(prev => ({ ...prev, metalness: value }));
+      });
+
+    textControllersRef.current.emissiveController = textFolder
+      .addColor(localTextProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setTextMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    textControllersRef.current.emissiveIntensityController = textFolder
+      .add(localTextProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setTextMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
       });
 
     // CUSHION FOLDER
