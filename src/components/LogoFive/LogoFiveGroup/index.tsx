@@ -53,7 +53,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
     color: '#000',
     metalness: 1.0,
-    roughness: 0.5,
+    roughness: 0,
     opacity: 1.0,
   });
 
@@ -63,7 +63,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
     color: '#000',
     metalness: 1.0,
-    roughness: 0.5,
+    roughness: 0,
     opacity: 1.0,
   });
 

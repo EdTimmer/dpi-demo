@@ -17,15 +17,15 @@ const LogoFiveWrapper = () => {
     setIsMouseLeft(true);
   }
 
-  const leftLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const leftLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
+  const bottomLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const topLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
 
   useEffect(() => {
-    if (leftLightRef.current) {
-      leftLightRef.current.lookAt(-1, -0.9, 0);
+    if (bottomLightRef.current) {
+      bottomLightRef.current.lookAt(-2, -0.9, 0);
     }
-    if (leftLightRefTwo.current) {
-      leftLightRefTwo.current.lookAt(-1, -0.9, 0);
+    if (topLightRefTwo.current) {
+      topLightRefTwo.current.lookAt(-2, 0.9, 0);
     }
   }, []);
 
@@ -40,6 +40,8 @@ const LogoFiveWrapper = () => {
         <ambientLight intensity={1} />
         <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={Math.PI} rotationAmount={Math.PI} />
         <directionalLight position={[5, 5, 10]} intensity={1} />
+        {/* <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
+        <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />  */}
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        
