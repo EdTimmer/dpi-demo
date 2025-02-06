@@ -39,7 +39,7 @@ const LogoFiveWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
         <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={Math.PI} rotationAmount={Math.PI} />
-        {/* <directionalLight position={[0, 0, 10]} intensity={1} /> */}
+        <directionalLight position={[5, 5, 10]} intensity={1} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        
