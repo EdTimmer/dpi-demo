@@ -86,6 +86,8 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     roughness: 0,     
     metalness: 1.0,
     envMapIntensity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0,
   });
 
   useEffect(() => {
@@ -231,6 +233,8 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
       roughness: cushionMaterialProps.roughness,
       metalness: cushionMaterialProps.metalness,
       envMapIntensity: cushionMaterialProps.envMapIntensity,
+      emissive: cushionMaterialProps.emissive,
+      emissiveIntensity: cushionMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -267,6 +271,20 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
       .name('Env Map Intensity')
       .onChange((envMapIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
+      });
+    
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+     cushionControllersRef.current.emissiveIntensityController = cushionFolder
+      .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
 
     return () => {
