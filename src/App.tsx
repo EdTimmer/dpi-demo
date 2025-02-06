@@ -6,6 +6,7 @@ import LogoOneWrapper from './components/LogoOne/LogoOneWrapper';
 import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
 import LogoThreeWrapper from './components/LogoThree/LogoThreeWrapper';
 import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
+import LogoFiveWrapper from './components/LogoFive/LogoFiveWrapper';
 
 function App() {
   return (
@@ -19,6 +20,11 @@ function App() {
         <LogoThreeWrapper />
         <LogoFourWrapper />
       </Row>
+
+      <Row>
+        <LogoFiveWrapper />
+      </Row>
+
     </AppContainer>
   )
 }
