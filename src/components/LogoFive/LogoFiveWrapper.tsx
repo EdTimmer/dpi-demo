@@ -40,6 +40,8 @@ const LogoFiveWrapper = () => {
         <ambientLight intensity={1} />
         <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={Math.PI} rotationAmount={Math.PI} />
         <directionalLight position={[5, 5, 10]} intensity={1} />
+        {/* <directionalLight position={[-5, 0, 10]} intensity={1} />
+        <directionalLight position={[5, 0, 10]} intensity={1} /> */}
         {/* <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
         <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />  */}
         <OrbitControls enableDamping enableZoom={false} />
