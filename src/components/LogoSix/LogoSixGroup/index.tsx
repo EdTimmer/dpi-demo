@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
+import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
@@ -13,13 +14,13 @@ interface Props {
   rotationAmount: number;
 }
 
-function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
-  const LogoThreeGroupRef = useRef<Group>(null);
+function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
+  const LogoSixGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
-    if (LogoThreeGroupRef.current) {
-      LogoThreeGroupRef.current.rotation.y = initialRotation;
+    if (LogoSixGroupRef.current) {
+      LogoSixGroupRef.current.rotation.y = initialRotation;
     }
   }, []);
 
@@ -27,23 +28,23 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     const time = state.clock.getElapsedTime();
     
     // The small 'breathing' rotation in X:
-    if (LogoThreeGroupRef.current) {
-      LogoThreeGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
+    if (LogoSixGroupRef.current) {
+      LogoSixGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
     }
   
     // Then the Y rotation on mouse enter/leave, scaled by delta:
     if (
       isMouseEntered &&
-      LogoThreeGroupRef.current &&
-      LogoThreeGroupRef.current.rotation.y <= initialRotation + rotationAmount
+      LogoSixGroupRef.current &&
+      LogoSixGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
-      LogoThreeGroupRef.current.rotation.y += 3 * delta;
+      LogoSixGroupRef.current.rotation.y += 3 * delta;
     } else if (
       isMouseLeft &&
-      LogoThreeGroupRef.current &&
-      LogoThreeGroupRef.current.rotation.y >= initialRotation
+      LogoSixGroupRef.current &&
+      LogoSixGroupRef.current.rotation.y >= initialRotation
     ) {
-      LogoThreeGroupRef.current.rotation.y -= 3 * delta;
+      LogoSixGroupRef.current.rotation.y -= 3 * delta;
     }
   });
 
@@ -51,20 +52,24 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textBoldFolderRef = useRef<GUI | null>(null);
   const textBoldControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
-    color: '#000',
-    metalness: 1.0,
-    roughness: 0.5,
+    color: '#fff',
+    metalness: 0,
+    roughness: 0,
     opacity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0.12,
   });
 
   // TEXT LIGHT GUI REFS
   const textLightFolderRef = useRef<GUI | null>(null);
   const textLightControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
-    color: '#000',
-    metalness: 1.0,
-    roughness: 0.5,
+    color: '#fff',
+    metalness: 0,
+    roughness: 0,
     opacity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0.12,
   });
 
   // SPHERE GUI REFS
@@ -75,31 +80,37 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     metalness: 0,
     roughness: 1,
     opacity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0,
   });
 
   // CUSHION GUI REFS
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#fff',
+    color: '#000',
     opacity: 1.0,
-    roughness: 0,     
-    metalness: 1.0,
-    envMapIntensity: 1.0,
+    roughness: 0.1,     
+    metalness: 0.1,
+    emissive: '#fff',
+    emissiveIntensity: 0,
   });
 
   useEffect(() => {
-    const guiThree = new GUI({
+    const guiSix = new GUI({
       width: 350,
-      title: 'Center Left Pin'
+      title: 'Bottom Right Pin'
     });
     // Position the GUI
-    guiThree.domElement.style.position = 'absolute';
-    guiThree.domElement.style.left = '10px';
-    guiThree.domElement.style.top = '550px';
+    // guiFive.domElement.style.position = 'absolute';
+    // guiFive.domElement.style.left = '500px';
+    // guiFive.domElement.style.top = '500px';
+    guiSix.domElement.style.position = 'absolute';
+    guiSix.domElement.style.right = '500px';
+    guiSix.domElement.style.top = '900px';
 
     // TEXT BOLD FOLDER
-    const textBoldFolder = guiThree.addFolder('Text Bold');
+    const textBoldFolder = guiSix.addFolder('Text Bold');
     textBoldFolderRef.current = textBoldFolder;
 
     const localTextBoldProps = {
@@ -107,6 +118,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: textBoldMaterialProps.metalness,
       roughness: textBoldMaterialProps.roughness,
       opacity: textBoldMaterialProps.opacity,
+      emissive: textBoldMaterialProps.emissive,
+      emissiveIntensity: textBoldMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -137,9 +150,23 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .onChange((opacity: number) => {
         setTextBoldMaterialProps((prev) => ({ ...prev, opacity }));
       });
+    
+    textBoldControllersRef.current.emissiveController = textBoldFolder
+      .addColor(localTextBoldProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setTextBoldMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    textBoldControllersRef.current.emissiveIntensityController = textBoldFolder
+      .add(localTextBoldProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setTextBoldMaterialProps((prev) => ({ ...prev, emissiveIntensity })); 
+      });
 
     // TEXT LIGHT FOLDER
-    const textLightFolder = guiThree.addFolder('Text Light');
+    const textLightFolder = guiSix.addFolder('Text Light');
     textLightFolderRef.current = textLightFolder;
 
     const localTextLightProps = {
@@ -147,6 +174,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: textLightMaterialProps.metalness,
       roughness: textLightMaterialProps.roughness,
       opacity: textLightMaterialProps.opacity,
+      emissive: textLightMaterialProps.emissive,
+      emissiveIntensity: textLightMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -177,9 +206,24 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .onChange((opacity: number) => {
         setTextLightMaterialProps((prev) => ({ ...prev, opacity }));
       });
+    
+    textLightControllersRef.current.emissiveController = textLightFolder
+      .addColor(localTextLightProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setTextLightMaterialProps((prev) => ({ ...prev, emissive }));
+      }); 
+
+    textLightControllersRef.current.emissiveIntensityController = textLightFolder
+      .add(localTextLightProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setTextLightMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+      });
+    
 
     // SPHERE FOLDER
-    const sphereFolder = guiThree.addFolder('Sphere');
+    const sphereFolder = guiSix.addFolder('Sphere');
     sphereFolderRef.current = sphereFolder;
 
     const localSphereProps = {
@@ -187,6 +231,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: sphereMaterialProps.metalness,
       roughness: sphereMaterialProps.roughness,
       opacity: sphereMaterialProps.opacity,
+      emissive: sphereMaterialProps.emissive,
+      emissiveIntensity: sphereMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -218,8 +264,22 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         setSphereMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
+    sphereControllersRef.current.emissiveController = sphereFolder
+      .addColor(localSphereProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setSphereMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    sphereControllersRef.current.emissiveIntensityController = sphereFolder
+      .add(localSphereProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setSphereMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+      });
+
     // CUSHION FOLDER
-    const cushionFolder = guiThree.addFolder('Cushion');
+    const cushionFolder = guiSix.addFolder('Cushion');
     cushionFolderRef.current = cushionFolder;
 
     const localCushionProps = {
@@ -227,7 +287,9 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       opacity: cushionMaterialProps.opacity,
       roughness: cushionMaterialProps.roughness,
       metalness: cushionMaterialProps.metalness,
-      envMapIntensity: cushionMaterialProps.envMapIntensity,
+      // envMapIntensity: cushionMaterialProps.envMapIntensity,
+      emissive: cushionMaterialProps.emissive,
+      emissiveIntensity: cushionMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -259,21 +321,35 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         setCushionMaterialProps((prev) => ({ ...prev, metalness }));
       });
 
-    cushionControllersRef.current.envMapIntensityController = cushionFolder
-      .add(localCushionProps, 'envMapIntensity', 0, 1, 0.01)
-      .name('Env Map Intensity')
-      .onChange((envMapIntensity: number) => {
-        setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
+    // cushionControllersRef.current.envMapIntensityController = cushionFolder
+    //   .add(localCushionProps, 'envMapIntensity', 0, 1, 0.01)
+    //   .name('Env Map Intensity')
+    //   .onChange((envMapIntensity: number) => {
+    //     setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
+    //   });
+    
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+     cushionControllersRef.current.emissiveIntensityController = cushionFolder
+      .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
 
     return () => {
-      guiThree.destroy();
+      guiSix.destroy();
     }
 
   }, []);
 
   return (
-    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoThreeGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoSixGroupRef}>
       <DeloitteDigitalLogoGroup
         textBoldMaterialProps={textBoldMaterialProps}
         textLightMaterialProps={textLightMaterialProps}
@@ -284,4 +360,4 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   );
 }
 
-export default LogoThreeGroup;
+export default LogoSixGroup;

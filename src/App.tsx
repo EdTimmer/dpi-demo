@@ -7,6 +7,7 @@ import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
 import LogoThreeWrapper from './components/LogoThree/LogoThreeWrapper';
 import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
 import LogoFiveWrapper from './components/LogoFive/LogoFiveWrapper';
+import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
 
       <Row>
         <LogoFiveWrapper />
+        <LogoSixWrapper />
       </Row>
 
     </AppContainer>

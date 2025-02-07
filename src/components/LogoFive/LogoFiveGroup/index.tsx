@@ -93,7 +93,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   useEffect(() => {
     const guiFive = new GUI({
       width: 350,
-      title: 'Bottom Center Pin'
+      title: 'Bottom Left Pin'
     });
     // Position the GUI
     // guiFive.domElement.style.position = 'absolute';
