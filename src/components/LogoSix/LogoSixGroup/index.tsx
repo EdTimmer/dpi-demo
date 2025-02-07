@@ -5,7 +5,6 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
-import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
