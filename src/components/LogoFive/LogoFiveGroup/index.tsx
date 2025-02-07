@@ -87,7 +87,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     metalness: 1.0,
     envMapIntensity: 1.0,
     emissive: '#fff',
-    emissiveIntensity: 0,
+    emissiveIntensity: 0.3,
   });
 
   useEffect(() => {
