@@ -105,7 +105,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // guiFive.domElement.style.left = '500px';
     // guiFive.domElement.style.top = '500px';
     guiSix.domElement.style.position = 'absolute';
-    guiSix.domElement.style.right = '500px';
+    guiSix.domElement.style.right = '10px';
     guiSix.domElement.style.top = '900px';
 
     // TEXT BOLD FOLDER

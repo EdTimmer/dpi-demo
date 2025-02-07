@@ -100,8 +100,8 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     // guiFive.domElement.style.left = '500px';
     // guiFive.domElement.style.top = '500px';
     guiFive.domElement.style.position = 'absolute';
-    guiFive.domElement.style.left = '500px';
-    guiFive.domElement.style.top = '900px';
+    guiFive.domElement.style.left = '10px';
+    guiFive.domElement.style.top = '1110px';
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiFive.addFolder('Text Bold');
