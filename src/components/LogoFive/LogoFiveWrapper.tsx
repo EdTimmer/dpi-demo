@@ -39,7 +39,7 @@ const LogoFiveWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
         <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI} />
-        <directionalLight position={[5, 5, 10]} intensity={1} />
+        <directionalLight position={[2, 5, 5]} intensity={1} />
         {/* <directionalLight position={[-5, 0, 10]} intensity={1} />
         <directionalLight position={[5, 0, 10]} intensity={1} /> */}
         {/* <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />

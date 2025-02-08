@@ -26,7 +26,7 @@ const LogoOneWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoOneGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI * 2} />
+        <LogoOneGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI} />
         <directionalLight position={[5, -5, 10]} intensity={1} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
+import CushionCover from './CushionCover';
 
 interface Props {
   isMouseEntered: boolean;
@@ -51,9 +52,9 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textBoldFolderRef = useRef<GUI | null>(null);
   const textBoldControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
-    color: '#000',
-    metalness: 1.0,
-    roughness: 0.5,
+    color: '#fff',
+    metalness: 0,
+    roughness: 1,
     opacity: 1.0,
   });
 
@@ -61,9 +62,9 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textLightFolderRef = useRef<GUI | null>(null);
   const textLightControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
-    color: '#000',
-    metalness: 1.0,
-    roughness: 0.5,
+    color: '#fff',
+    metalness: 0,
+    roughness: 1,
     opacity: 1.0,
   });
 
@@ -86,6 +87,16 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     roughness: 0,     
     metalness: 1.0,
     envMapIntensity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0,
+  });
+
+  // CUSHION COVERAGE GUI REFS
+  const cushionCoverFolderRef = useRef<GUI | null>(null);
+  const cushionCoverageControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  const [cushionCoverMaterialProps, setCushionCoverageMaterialProps] = useState({
+    color: '#fff',
+    opacity: 0.3,
   });
 
   useEffect(() => {
@@ -228,6 +239,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       roughness: cushionMaterialProps.roughness,
       metalness: cushionMaterialProps.metalness,
       envMapIntensity: cushionMaterialProps.envMapIntensity,
+      emissive: cushionMaterialProps.emissive,
+      emissiveIntensity: cushionMaterialProps.emissiveIntensity
     }
 
     // add controls for each property
@@ -266,6 +279,45 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
       });
 
+    cushionControllersRef.current.emissiveController = cushionFolder
+      .addColor(localCushionProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    cushionControllersRef.current.emissiveIntensityController = cushionFolder
+      .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+      });
+
+    // CUSHION COVERAGE FOLDER
+    const cushionCoverFolder = guiThree.addFolder('Cushion Cover');
+    cushionCoverFolderRef.current = cushionCoverFolder;
+
+    const localCushionCoverageProps = {
+      color: cushionCoverMaterialProps.color,
+      opacity: cushionCoverMaterialProps.opacity,
+    }
+
+    // add controls for each property
+    cushionCoverageControllersRef.current.colorController = cushionCoverFolder
+      .addColor(localCushionCoverageProps, 'color')
+      .name('Color')
+      .onChange((color: string) => {
+        setCushionCoverageMaterialProps((prev) => ({ ...prev, color }));
+      });
+
+    cushionCoverageControllersRef.current.opacityController = cushionCoverFolder
+      .add(localCushionCoverageProps, 'opacity', 0, 1, 0.01)
+      .name('Opacity')
+      .onChange((opacity: number) => {
+        setCushionCoverageMaterialProps((prev) => ({ ...prev, opacity }));
+      });
+    
+
     return () => {
       guiThree.destroy();
     }
@@ -279,6 +331,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         textLightMaterialProps={textLightMaterialProps}
         sphereMaterialProps={sphereMaterialProps}
       />
+      <CushionCover size={0.92} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionCoverMaterialProps={cushionCoverMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );

@@ -13,13 +13,15 @@ interface Props {
     roughness: number;
     opacity: number;
     envMapIntensity: number;
+    emissive: string;
+    emissiveIntensity: number;
   },
 }
 
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, '/images/ripples.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/images/silver_5.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -36,6 +38,8 @@ const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Prop
         opacity={cushionMaterialProps.opacity}
         envMapIntensity={cushionMaterialProps.envMapIntensity}
         color={cushionMaterialProps.color}
+        emissive={cushionMaterialProps.emissive}
+        emissiveIntensity={cushionMaterialProps.emissiveIntensity}
         transparent
       />
     </mesh>
