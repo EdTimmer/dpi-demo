@@ -102,7 +102,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   useEffect(() => {
     const guiThree = new GUI({
       width: 350,
-      title: 'Center Left Pin'
+      title: 'CENTER LEFT PIN'
     });
     // Position the GUI
     guiThree.domElement.style.position = 'absolute';

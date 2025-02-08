@@ -14,6 +14,14 @@ export default createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
+  .lil-gui > .title {
+    font-size: 12px ;
+    margin: 0;
+    /* padding: 4px; */
+    font-weight: 700;
+    /* height: 34px; */
+  }
+
   /* Next block defines what root 1rem is */
 
   /* Standard font-size is 16px.  If 16px is 100%, then 10px is 62.5% */

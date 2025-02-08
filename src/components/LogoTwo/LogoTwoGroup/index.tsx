@@ -74,7 +74,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   useEffect(() => {
     const guiTwo = new GUI({
       width: 350,
-      title: 'Bottom Right Pin'
+      title: 'BOTTOM RIGHT PIN'
     });
     // Position the GUI
     guiTwo.domElement.style.position = 'absolute';

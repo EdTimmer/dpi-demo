@@ -83,7 +83,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
 
   useEffect(() => {
     const guiFour = new GUI({
-      title: 'Center Right Pin',
+      title: 'CENTER RIGHT PIN',
       width: 350,
     });
 

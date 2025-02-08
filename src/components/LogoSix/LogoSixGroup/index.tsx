@@ -126,7 +126,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
   useEffect(() => {
     const guiSix = new GUI({
       width: 350,
-      title: 'Top Right Pin'
+      title: 'TOP RIGHT PIN'
     });
     // Position the GUI
     // guiFive.domElement.style.position = 'absolute';

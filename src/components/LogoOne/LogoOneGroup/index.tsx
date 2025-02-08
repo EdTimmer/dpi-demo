@@ -87,7 +87,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   useEffect(() => {
     const guiOne = new GUI({ 
       width: 350,
-      title: 'Top Left Pin'
+      title: 'TOP LEFT PIN'
     });
     // Position the GUI
     guiOne.domElement.style.position = 'absolute'; // Customize the position
@@ -131,7 +131,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
 
     textControllersRef.current.envMapIntensityController = textFolder
       .add(localTextProps, 'envMapIntensity', 0, 2, 0.01)
-      .name('Env Intensity')
+      .name('Env Map Intensity')
       .onChange((value: number) => {
         setTextMaterialProps(prev => ({ ...prev, envMapIntensity: value }));
       });
