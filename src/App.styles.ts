@@ -13,7 +13,7 @@ export const AppContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   overflow: hidden;
-  background-color: ${colors.black};
+  background-color: ${colors.eerieBlack};
 `;
 
 export const Row = styled.div`
