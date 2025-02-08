@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
+import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 
 interface Props {
@@ -8,25 +9,35 @@ interface Props {
   scale: [number, number, number];
   cushionMaterialProps: {
     color: string;
-    opacity: number;
-    roughness: number;
     metalness: number;
+    roughness: number;
+    opacity: number;
+    envMapIntensity: number;
     emissive: string;
     emissiveIntensity: number;
-  }
+  },
 }
 
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
+  const texture = useLoader(THREE.TextureLoader, '/images/bw_5.png');
+
+  const envMap = useMemo(() => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    return texture;
+  }, [texture]);
+
   return (
     <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale} renderOrder={1}>
       <sphereGeometry args={[size, 32, 32]} />
-      <meshStandardMaterial 
+      <meshStandardMaterial
+        envMap={envMap}
         metalness={cushionMaterialProps.metalness}
         roughness={cushionMaterialProps.roughness}
-        color={cushionMaterialProps.color}
         opacity={cushionMaterialProps.opacity}
+        envMapIntensity={cushionMaterialProps.envMapIntensity}
+        color={cushionMaterialProps.color}
         emissive={cushionMaterialProps.emissive}
         emissiveIntensity={cushionMaterialProps.emissiveIntensity}
         transparent

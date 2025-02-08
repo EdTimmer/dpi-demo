@@ -4,11 +4,11 @@ import {
   Row,
 } from './App.styles'
 import LogoOneWrapper from './components/LogoOne/LogoOneWrapper';
-import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
+import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
 import LogoThreeWrapper from './components/LogoThree/LogoThreeWrapper';
 import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
 import LogoFiveWrapper from './components/LogoFive/LogoFiveWrapper';
-import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
+import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <AppContainer>
         <Row>
           <LogoOneWrapper />        
-          <LogoSixWrapper />
+          <LogoTwoWrapper />
         </Row>
 
         <Row>
@@ -26,7 +26,7 @@ function App() {
 
         <Row>
           <LogoFiveWrapper />
-          <LogoTwoWrapper />
+          <LogoSixWrapper />
         </Row>
       </AppContainer>
     </AppWrapper>
