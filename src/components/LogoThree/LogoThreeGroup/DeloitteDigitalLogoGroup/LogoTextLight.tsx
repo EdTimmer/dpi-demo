@@ -12,6 +12,8 @@ interface Props {
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   },
 }
 
@@ -59,6 +61,8 @@ const LogoTextLight = ({ position, rotation, text, textLightMaterialProps }: Pro
         roughness={textLightMaterialProps.roughness}
         color={textLightMaterialProps.color}
         opacity={textLightMaterialProps.opacity}
+        emissive={textLightMaterialProps.emissive}
+        emissiveIntensity={textLightMaterialProps.emissiveIntensity}
         transparent
       />
     </mesh>

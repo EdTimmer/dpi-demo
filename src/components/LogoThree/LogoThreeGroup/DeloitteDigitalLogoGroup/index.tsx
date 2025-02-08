@@ -11,18 +11,24 @@ interface Props {
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   },
   textLightMaterialProps: {
     color: string;
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   },
   sphereMaterialProps: {
     color: string;
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   },
 }
 

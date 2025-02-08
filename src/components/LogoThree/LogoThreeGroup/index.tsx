@@ -56,6 +56,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     metalness: 0,
     roughness: 1,
     opacity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0.4,
   });
 
   // TEXT LIGHT GUI REFS
@@ -66,6 +68,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     metalness: 0,
     roughness: 1,
     opacity: 1.0,
+    emissive: '#fff',
+    emissiveIntensity: 0.4,
   });
 
   // SPHERE GUI REFS
@@ -76,6 +80,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     metalness: 0,
     roughness: 1,
     opacity: 1.0,
+    emissive: '#4dff29',
+    emissiveIntensity: 0.2,
   });
 
   // CUSHION GUI REFS
@@ -118,6 +124,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: textBoldMaterialProps.metalness,
       roughness: textBoldMaterialProps.roughness,
       opacity: textBoldMaterialProps.opacity,
+      emissive: textBoldMaterialProps.emissive,
+      emissiveIntensity: textBoldMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -149,6 +157,20 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         setTextBoldMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
+    textBoldControllersRef.current.emissiveController = textBoldFolder
+      .addColor(localTextBoldProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setTextBoldMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    textBoldControllersRef.current.emissiveIntensityController = textBoldFolder
+      .add(localTextBoldProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setTextBoldMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+      });
+
     // TEXT LIGHT FOLDER
     const textLightFolder = guiThree.addFolder('Text Light');
     textLightFolderRef.current = textLightFolder;
@@ -158,6 +180,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: textLightMaterialProps.metalness,
       roughness: textLightMaterialProps.roughness,
       opacity: textLightMaterialProps.opacity,
+      emissive: textLightMaterialProps.emissive,
+      emissiveIntensity: textLightMaterialProps.emissiveIntensity
     }
 
     // add controls for each property
@@ -189,6 +213,20 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
         setTextLightMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
+    textLightControllersRef.current.emissiveController = textLightFolder
+      .addColor(localTextLightProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setTextLightMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    textLightControllersRef.current.emissiveIntensityController = textLightFolder
+      .add(localTextLightProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setTextLightMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+      });
+
     // SPHERE FOLDER
     const sphereFolder = guiThree.addFolder('Sphere');
     sphereFolderRef.current = sphereFolder;
@@ -198,6 +236,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: sphereMaterialProps.metalness,
       roughness: sphereMaterialProps.roughness,
       opacity: sphereMaterialProps.opacity,
+      emissive: sphereMaterialProps.emissive,
+      emissiveIntensity: sphereMaterialProps.emissiveIntensity
     }
 
     // add controls for each property
@@ -227,6 +267,20 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .name('Opacity')
       .onChange((opacity: number) => {
         setSphereMaterialProps((prev) => ({ ...prev, opacity }));
+      });
+
+    sphereControllersRef.current.emissiveController = sphereFolder
+      .addColor(localSphereProps, 'emissive')
+      .name('Emissive')
+      .onChange((emissive: string) => {
+        setSphereMaterialProps((prev) => ({ ...prev, emissive }));
+      });
+
+    sphereControllersRef.current.emissiveIntensityController = sphereFolder
+      .add(localSphereProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((emissiveIntensity: number) => {
+        setSphereMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
 
     // CUSHION FOLDER

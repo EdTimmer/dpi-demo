@@ -6,6 +6,8 @@ interface Props {
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   };
 }
 
@@ -18,6 +20,8 @@ const GreenDotGlass = ({ position, size, sphereMaterialProps }: Props) => {
         metalness={sphereMaterialProps.metalness}
         roughness={sphereMaterialProps.roughness}
         opacity={sphereMaterialProps.opacity}
+        emissive={sphereMaterialProps.emissive}
+        emissiveIntensity={sphereMaterialProps.emissiveIntensity}
         transparent
       />
     </mesh>
