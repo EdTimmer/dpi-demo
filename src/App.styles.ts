@@ -7,14 +7,14 @@ export const AppWrapper = styled.div`
   font-family: 'Roboto Mono', monospace;
   padding: 0 370px;
   width: 100%;
-  height: 138vh;
+  height: 1980px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   overflow: hidden;
   background-color: ${colors.seasalt};
-  gap: 100px;
+  /* gap: 100px; */
 `;
 
 export const AppContainer = styled.div`
@@ -22,7 +22,7 @@ export const AppContainer = styled.div`
   z-index: 1;
   /* font-family: 'Roboto Mono', monospace; */
   /* padding: 30px; */
-  padding-top: 30px;
+  padding-top: 150px;
   margin: 10px 0;
   width: 100%;
   height: 100%;
