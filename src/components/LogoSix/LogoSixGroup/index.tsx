@@ -4,6 +4,7 @@ import { Group } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
+import CushionCover from './CushionCover';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 
 interface Props {
@@ -89,10 +90,19 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
     color: '#000',
     opacity: 1.0,
-    roughness: 0.1,     
-    metalness: 0.1,
+    roughness: 0,     
+    metalness: 0,
     emissive: '#fff',
-    emissiveIntensity: 0,
+    emissiveIntensity: 0.01,
+    envMapIntensity: 1.0,
+  });
+
+  // CUSHION COVER GUI REFS
+  const cushionCoverFolderRef = useRef<GUI | null>(null);
+  const cushionCoverControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  const [cushionCoverMaterialProps, setCushionCoverMaterialProps] = useState({
+    color: '#e4e3e3',
+    opacity: 0.3,
   });
 
   useEffect(() => {
@@ -286,7 +296,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       opacity: cushionMaterialProps.opacity,
       roughness: cushionMaterialProps.roughness,
       metalness: cushionMaterialProps.metalness,
-      // envMapIntensity: cushionMaterialProps.envMapIntensity,
+      envMapIntensity: cushionMaterialProps.envMapIntensity,
       emissive: cushionMaterialProps.emissive,
       emissiveIntensity: cushionMaterialProps.emissiveIntensity,
     }
@@ -320,12 +330,12 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
         setCushionMaterialProps((prev) => ({ ...prev, metalness }));
       });
 
-    // cushionControllersRef.current.envMapIntensityController = cushionFolder
-    //   .add(localCushionProps, 'envMapIntensity', 0, 1, 0.01)
-    //   .name('Env Map Intensity')
-    //   .onChange((envMapIntensity: number) => {
-    //     setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
-    //   });
+    cushionControllersRef.current.envMapIntensityController = cushionFolder
+      .add(localCushionProps, 'envMapIntensity', 0, 1, 0.01)
+      .name('Env Map Intensity')
+      .onChange((envMapIntensity: number) => {
+        setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
+      });
     
     cushionControllersRef.current.emissiveController = cushionFolder
       .addColor(localCushionProps, 'emissive')
@@ -340,6 +350,31 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .onChange((emissiveIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
+    
+    // CUSHION COVER FOLDER
+    const cushionCoverFolder = guiSix.addFolder('Cushion Cover');
+    cushionCoverFolderRef.current = cushionCoverFolder;
+
+    const localCushionCoverProps = {
+      color: cushionCoverMaterialProps.color,
+      opacity: cushionCoverMaterialProps.opacity,
+    }
+
+    // add controls for each property
+    cushionCoverControllersRef.current.colorController = cushionCoverFolder
+      .addColor(localCushionCoverProps, 'color')
+      .name('Color')
+      .onChange((color: string) => {
+        setCushionCoverMaterialProps((prev) => ({ ...prev, color }));
+      });
+
+    cushionCoverControllersRef.current.opacityController = cushionCoverFolder
+      .add(localCushionCoverProps, 'opacity', 0, 1, 0.01)
+      .name('Opacity')
+      .onChange((opacity: number) => {
+        setCushionCoverMaterialProps((prev) => ({ ...prev, opacity }));
+      });
+    
 
     return () => {
       guiSix.destroy();
@@ -354,6 +389,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
         textLightMaterialProps={textLightMaterialProps}
         sphereMaterialProps={sphereMaterialProps}
       />
+      <CushionCover size={0.93} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionCoverMaterialProps={cushionCoverMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );

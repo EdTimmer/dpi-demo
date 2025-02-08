@@ -63,10 +63,10 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#000',
+    color: '#008f32',
     opacity: 1.0,
-    roughness: 0.1,     
-    metalness: 0.1,
+    roughness: 0,     
+    metalness: 0.25,
     emissive: '#fff',
     emissiveIntensity: 0,
   });

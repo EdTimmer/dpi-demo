@@ -8,6 +8,7 @@ const colors = {
   outerSpace: '#495057ff',
   onyx: '#343a40ff',
   eerieBlack: '#212529ff',
+  black: '#000',
 }
 
 export default colors;

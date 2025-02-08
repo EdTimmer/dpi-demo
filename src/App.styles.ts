@@ -6,13 +6,14 @@ export const AppContainer = styled.div`
   z-index: 1;
   font-family: 'Roboto Mono', monospace;
   padding: 30px;
-  width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   overflow: hidden;
+  background-color: ${colors.black};
 `;
 
 export const Row = styled.div`
