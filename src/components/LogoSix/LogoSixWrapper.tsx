@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import LogoSixGroup from './LogoSixGroup';
 
 const LogoSixWrapper = () => {
+  const [isFacingUser, setIsFacingUser] = useState(true);
+
   const [isMouseEntered, setIsMouseEntered] = useState(false);
   const [isMouseLeft, setIsMouseLeft] = useState(false);
 
@@ -38,15 +40,10 @@ const LogoSixWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoSixGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={Math.PI} rotationAmount={Math.PI} />
+        <LogoSixGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} isFacingUser={isFacingUser} setIsFacingUser={setIsFacingUser} />
         <directionalLight position={[0, 5, 5]} intensity={1} />
         <directionalLight position={[-5, -5, 5]} intensity={1} />
         <directionalLight position={[5, -5, 5]} intensity={1} />
-        {/* <directionalLight position={[-5, 0, 10]} intensity={1} />
-        <directionalLight position={[5, 0, 10]} intensity={1} /> */}
-        {/* <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
-        <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />  */}
-        {/* <rectAreaLight intensity={1} width={3} height={3} position={[3, 5, 3]} /> */}
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        

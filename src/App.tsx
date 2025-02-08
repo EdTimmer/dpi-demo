@@ -13,8 +13,8 @@ function App() {
   return (
     <AppContainer>
       <Row>
-        <LogoOneWrapper />
-        <LogoTwoWrapper />
+        <LogoOneWrapper />        
+        <LogoSixWrapper />
       </Row>
 
       <Row>
@@ -24,7 +24,7 @@ function App() {
 
       <Row>
         <LogoFiveWrapper />
-        <LogoSixWrapper />
+        <LogoTwoWrapper />
       </Row>
 
     </AppContainer>

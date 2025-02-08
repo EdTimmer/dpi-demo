@@ -56,7 +56,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     roughness: 0.2,       
     metalness: 0.2,
     emissive: '#fff',
-    emissiveIntensity: 0.12,
+    emissiveIntensity: 0.2,
   });
 
   // CUSHION GUI REFS
@@ -64,22 +64,22 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
     color: '#008f32',
-    opacity: 1.0,
-    roughness: 0,     
-    metalness: 0.25,
+    opacity: 0.8,
+    roughness: 0.5,     
+    metalness: 1,
     emissive: '#fff',
-    emissiveIntensity: 0,
+    emissiveIntensity: 0.1,
   });
 
   useEffect(() => {
     const guiTwo = new GUI({
       width: 350,
-      title: 'Top Right Pin'
+      title: 'Bottom Right Pin'
     });
     // Position the GUI
     guiTwo.domElement.style.position = 'absolute';
     guiTwo.domElement.style.right = '10px';
-    guiTwo.domElement.style.top = '10px';
+    guiTwo.domElement.style.top = '1400px';
 
     // TEXT FOLDER
     const textFolder = guiTwo.addFolder('Text');

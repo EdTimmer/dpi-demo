@@ -10,19 +10,29 @@ import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
-  initialRotation: number;
-  rotationAmount: number;
+  isFacingUser: boolean;
+  setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
+function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
+  const [initialRotation, setInitialRotation] = useState(0);
   const LogoSixGroupRef = useRef<Group>(null);
+
+  useEffect(() => {
+    if (isFacingUser) {
+      setInitialRotation(0);
+    } else {
+      setInitialRotation(Math.PI);
+    }
+  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
+    // const initialRotation = isFacingUser ? 0 : Math.PI;
     if (LogoSixGroupRef.current) {
-      LogoSixGroupRef.current.rotation.y = initialRotation;
+      LogoSixGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
-  }, []);
+  }, [isFacingUser]);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
@@ -36,7 +46,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     if (
       isMouseEntered &&
       LogoSixGroupRef.current &&
-      LogoSixGroupRef.current.rotation.y <= initialRotation + rotationAmount
+      LogoSixGroupRef.current.rotation.y <= initialRotation + Math.PI
     ) {
       LogoSixGroupRef.current.rotation.y += 3 * delta;
     } else if (
@@ -47,6 +57,14 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       LogoSixGroupRef.current.rotation.y -= 3 * delta;
     }
   });
+
+  // ROTATION GUI REFS
+  const rotationFolderRef = useRef<GUI | null>(null);
+  const rotationControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  // const [rotationProps, setRotationProps] = useState({
+  //   initialRotation,
+  //   rotationAmount,
+  // });
 
   // TEXT BOLD GUI REFS
   const textBoldFolderRef = useRef<GUI | null>(null);
@@ -108,7 +126,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   useEffect(() => {
     const guiSix = new GUI({
       width: 350,
-      title: 'Bottom Right Pin'
+      title: 'Top Right Pin'
     });
     // Position the GUI
     // guiFive.domElement.style.position = 'absolute';
@@ -116,7 +134,24 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // guiFive.domElement.style.top = '500px';
     guiSix.domElement.style.position = 'absolute';
     guiSix.domElement.style.right = '10px';
-    guiSix.domElement.style.top = '900px';
+    guiSix.domElement.style.top = '10px';
+
+    // ROTATION FOLDER
+    const rotationFolder = guiSix.addFolder('Rotation');
+    rotationFolderRef.current = rotationFolder;
+
+    const localRotationProps = {
+      isFacingUser,
+    }
+
+    // add rotation controls for each property with a step increment of Math.PI
+    rotationControllersRef.current.isFacingUserController = rotationFolder
+      .add(localRotationProps, 'isFacingUser')
+      .name('Is Facing User')
+      .onChange((isFacingUser: boolean) => {
+        setIsFacingUser(isFacingUser);
+      });
+
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiSix.addFolder('Text Bold');
@@ -373,8 +408,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       .name('Opacity')
       .onChange((opacity: number) => {
         setCushionCoverMaterialProps((prev) => ({ ...prev, opacity }));
-      });
-    
+      });    
 
     return () => {
       guiSix.destroy();
