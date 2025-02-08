@@ -1,19 +1,38 @@
 import styled from 'styled-components';
 import colors from './styles/colors';
 
-export const AppContainer = styled.div`
+export const AppWrapper = styled.div`
   position: relative;
   z-index: 1;
   font-family: 'Roboto Mono', monospace;
-  padding: 30px;
+  padding: 0 370px;
   width: 100%;
-  height: 200vh;
+  height: 138vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  background-color: ${colors.seasalt};
+  gap: 100px;
+`;
+
+export const AppContainer = styled.div`
+  position: relative;
+  z-index: 1;
+  /* font-family: 'Roboto Mono', monospace; */
+  /* padding: 30px; */
+  padding-top: 30px;
+  margin: 10px 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   overflow: hidden;
   background-color: ${colors.eerieBlack};
+  gap: 100px;
 `;
 
 export const Row = styled.div`
@@ -149,3 +168,4 @@ export const CenterSection = styled.div`
   justify-content: center;
   align-items: flex-start;
 `;
+

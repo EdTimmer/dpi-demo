@@ -107,7 +107,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     // Position the GUI
     guiThree.domElement.style.position = 'absolute';
     guiThree.domElement.style.left = '10px';
-    guiThree.domElement.style.top = '550px';
+    guiThree.domElement.style.top = '540px';
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiThree.addFolder('Text Bold');

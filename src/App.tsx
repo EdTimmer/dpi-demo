@@ -1,4 +1,5 @@
-import { 
+import {
+  AppWrapper,
   AppContainer,
   Row,
 } from './App.styles'
@@ -11,23 +12,24 @@ import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
 
 function App() {
   return (
-    <AppContainer>
-      <Row>
-        <LogoOneWrapper />        
-        <LogoSixWrapper />
-      </Row>
+    <AppWrapper>
+      <AppContainer>
+        <Row>
+          <LogoOneWrapper />        
+          <LogoSixWrapper />
+        </Row>
 
-      <Row>
-        <LogoThreeWrapper />
-        <LogoFourWrapper />
-      </Row>
+        <Row>
+          <LogoThreeWrapper />
+          <LogoFourWrapper />
+        </Row>
 
-      <Row>
-        <LogoFiveWrapper />
-        <LogoTwoWrapper />
-      </Row>
-
-    </AppContainer>
+        <Row>
+          <LogoFiveWrapper />
+          <LogoTwoWrapper />
+        </Row>
+      </AppContainer>
+    </AppWrapper>
   )
 }
 

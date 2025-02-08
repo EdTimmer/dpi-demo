@@ -79,7 +79,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // Position the GUI
     guiTwo.domElement.style.position = 'absolute';
     guiTwo.domElement.style.right = '10px';
-    guiTwo.domElement.style.top = '1400px';
+    guiTwo.domElement.style.top = '1370px';
 
     // TEXT FOLDER
     const textFolder = guiTwo.addFolder('Text');
