@@ -21,7 +21,7 @@ interface Props {
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, '/images/silver_2.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/images/bw_4.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;

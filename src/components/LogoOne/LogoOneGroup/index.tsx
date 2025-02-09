@@ -6,6 +6,7 @@ import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 import CushionCover from './CushionCover';
+import { listOfImages } from '../../../utilities/listOfImages';
 
 interface Props {
   isMouseEntered: boolean;
@@ -108,24 +109,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingU
     envMapIntensity: 1.0,
     emissive: '#fff',
     emissiveIntensity: 0,
-    envMapImages: [      
-      '/images/silver_5.jpg',
-      '/images/bw_1.png',
-      '/images/bw_2.jpg',
-      '/images/bw_3.jpg',
-      '/images/bw_4.jpg',
-      '/images/flower.jpg',
-      '/images/oil-blue.jpg',
-      '/images/rainbow_1.jpg',
-      '/images/ripples.jpg',
-      '/images/silver_1.jpg',
-      '/images/silver_4.jpg',
-      '/images/oil-bright-blue.jpg',
-      '/images/oil-green.jpg',
-      '/images/silver_6.jpg',
-      '/images/silver_7.jpg',
-      '/images/silver_8.jpg',
-    ],
+    envMapImages: listOfImages,
     envMapImage: '/images/silver_5.jpg',
   });
 

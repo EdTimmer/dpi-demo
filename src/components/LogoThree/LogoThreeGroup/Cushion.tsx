@@ -14,14 +14,16 @@ interface Props {
     emissive: string;
     emissiveIntensity: number;
     opacity: number;
-    envMapIntensity: number;    
+    envMapIntensity: number;
+    envMapImages: string[];
+    envMapImage: string;
   }
 }
 
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-    const texture = useLoader(THREE.TextureLoader, '/images/silver_6.jpg');
+    const texture = useLoader(THREE.TextureLoader, cushionMaterialProps.envMapImage);
   
     const envMap = useMemo(() => {
       texture.mapping = THREE.EquirectangularReflectionMapping;

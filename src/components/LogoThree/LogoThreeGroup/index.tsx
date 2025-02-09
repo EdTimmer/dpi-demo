@@ -6,6 +6,7 @@ import { GUI } from 'lil-gui';
 import Text from './Text';
 import Cushion from './Cushion';
 import GreenDotMetalTwo from './GreenDotMetalTwo';
+import { listOfImages } from '../../../utilities/listOfImages';
 
 interface Props {
   isMouseEntered: boolean;
@@ -53,8 +54,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const textControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
 
   const [textMaterialProps, setTextMaterialProps] = useState({
-    color: '#fff',
-    metalness: 1,
+    color: '#000',
+    metalness: 0,
     roughness: 0,
     envMapIntensity: 1,
     opacity: 1,
@@ -67,11 +68,11 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
   const sphereControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
     color: '#5bd643',
-    metalness: 0.85,
+    metalness: 0,
     roughness: 0,
     opacity: 1,
     emissive: '#5bd643',
-    emissiveIntensity: 0.2,
+    emissiveIntensity: 0,
   });
 
   // CUSHION GUI REFS
@@ -85,6 +86,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     emissive: '#000',
     emissiveIntensity: 0,
     envMapIntensity: 1,
+    envMapImages: listOfImages,
+    envMapImage: '/images/bw_3.jpg',
   });
 
   useEffect(() => {
@@ -231,8 +234,18 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       metalness: cushionMaterialProps.metalness,
       roughness: cushionMaterialProps.roughness,
       envMapIntensity: cushionMaterialProps.envMapIntensity,
+      envMapImages: cushionMaterialProps.envMapImages,
+      envMapImage: cushionMaterialProps.envMapImage,
     };
     // Add controls for each property
+    cushionControllersRef.current.envMapImageController = cushionFolder
+    .add(localCushionProps, 'envMapImage', cushionMaterialProps.envMapImages) // Passing the array creates a dropdown.
+    .name('Reflected Image')
+    .onChange((selectedImage: string) => {
+      // Update your material props with the selected image directly.
+      setCushionMaterialProps((prev) => ({ ...prev, envMapImage: selectedImage }));
+    });
+
     cushionControllersRef.current.colorController = cushionFolder
       .addColor(localCushionProps, 'color')
       .name('Color')
