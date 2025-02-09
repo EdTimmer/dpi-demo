@@ -52,9 +52,10 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const textBoldFolderRef = useRef<GUI | null>(null);
   const textBoldControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
-    color: '#fbd641',
+    color: '#c0c0c0',
+    // color: '#fbd641', // gold color
     metalness: 1,
-    roughness: 0.2,
+    roughness: 0.15,
     reflectivity: 1,
     clearcoat: 1,     // Adds a clear coat layer
     clearcoatRoughness: 0.1,
@@ -75,7 +76,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#e4aefd',
+    color: '#9c9b9d',
     opacity: 1.0,
     roughness: 0.5,     
     metalness: 0.8,

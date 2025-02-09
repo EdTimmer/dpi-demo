@@ -27,9 +27,9 @@ const LogoSixWrapper = () => {
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={0.5} />
         <LogoSixGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI} />
-        <directionalLight position={[0, 10, 10]} />
-        <directionalLight position={[10, -10, 0]} />
-        <directionalLight position={[-10, -10, 0]} />
+        <directionalLight position={[0, 5, 5]} />
+        <directionalLight position={[-5, -5, 5]} />
+        <directionalLight position={[5, -5, 5]} />
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        

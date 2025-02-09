@@ -63,12 +63,12 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#008f32',
-    opacity: 0.8,
-    roughness: 0.5,     
-    metalness: 1,
+    color: '#000',
+    opacity: 1,
+    roughness: 0.4,     
+    metalness: 0,
     emissive: '#fff',
-    emissiveIntensity: 0.1,
+    emissiveIntensity: 0,
   });
 
   useEffect(() => {
