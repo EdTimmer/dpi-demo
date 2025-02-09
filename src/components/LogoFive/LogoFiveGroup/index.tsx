@@ -102,15 +102,15 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#fff',
+    color: '#faf3e7',
     opacity: 1.0,
     roughness: 0,     
     metalness: 1.0,
-    envMapIntensity: 1.0,
+    envMapIntensity: 0.5,
     emissive: '#fff',
     emissiveIntensity: 0,
     envMapImages: listOfImages,
-    envMapImage: '/images/silver_5.jpg',
+    envMapImage: '/images/silver_6.jpg',
   });
 
   // CUSHION COVERAGE GUI REFS

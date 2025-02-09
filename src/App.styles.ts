@@ -14,25 +14,17 @@ export const AppWrapper = styled.div`
   align-items: center;
   overflow: hidden;
   background-color: ${colors.seasalt};
-  /* gap: 100px; */
 `;
 
 export const AppMiddleColumn = styled.div`
   position: relative;
   z-index: 1;
-  /* font-family: 'Roboto Mono', monospace; */
-  /* padding: 30px; */
   padding-top: 10px;
   margin: 10px 0;
   width: 100%;
   height: 100%;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
   overflow: hidden;
   background-color: ${colors.eerieBlack};
-  /* gap: 100px; */
 `;
 
 export const CenterSectionWrapper = styled.div`

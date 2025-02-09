@@ -110,7 +110,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingU
     emissive: '#fff',
     emissiveIntensity: 0,
     envMapImages: listOfImages,
-    envMapImage: '/images/silver_6.jpg',
+    envMapImage: '/images/silver_5.jpg',
   });
 
   // CUSHION COVERAGE GUI REFS
