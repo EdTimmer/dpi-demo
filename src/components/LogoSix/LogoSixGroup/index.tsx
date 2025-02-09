@@ -9,19 +9,28 @@ import Cushion from './Cushion';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
-  initialRotation: number;
-  rotationAmount: number;
+  isFacingUser: boolean;
+  setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
+function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
+  const [initialRotation, setInitialRotation] = useState(0);
   const logoSixGroupRef = useRef<Group>(null);
+
+  useEffect(() => {
+    if (isFacingUser) {
+      setInitialRotation(0);
+    } else {
+      setInitialRotation(Math.PI);
+    }
+  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (logoSixGroupRef.current) {
-      logoSixGroupRef.current.rotation.y = initialRotation;
+      logoSixGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
-  }, []);
+  }, [isFacingUser]);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
@@ -35,7 +44,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     if (
       isMouseEntered &&
       logoSixGroupRef.current &&
-      logoSixGroupRef.current.rotation.y <= initialRotation + rotationAmount
+      logoSixGroupRef.current.rotation.y <= initialRotation +  Math.PI
     ) {
       logoSixGroupRef.current.rotation.y += 3 * delta;
     } else if (
@@ -46,6 +55,10 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
       logoSixGroupRef.current.rotation.y -= 3 * delta;
     }
   });
+
+  // ROTATION GUI REFS
+  const rotationFolderRef = useRef<GUI | null>(null);
+  const rotationControllersRef = useRef<Record<string, any>>({});
 
   // TEXT GUI REFS
   const textFolderRef = useRef<GUI | null>(null);
@@ -79,7 +92,23 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // Position the GUI
     guiSix.domElement.style.position = 'absolute';
     guiSix.domElement.style.right = '10px';
-    guiSix.domElement.style.top = '1395px';
+    guiSix.domElement.style.top = '1450px';
+
+    // ROTATION FOLDER
+    const rotationFolder = guiSix.addFolder('Rotation');
+    rotationFolderRef.current = rotationFolder;
+
+    const localRotationProps = {
+      isFacingUser,
+    }
+
+    // add rotation controls for each property with a step increment of Math.PI
+    rotationControllersRef.current.isFacingUserController = rotationFolder
+    .add(localRotationProps, 'isFacingUser')
+    .name('Is Facing User')
+    .onChange((isFacingUser: boolean) => {
+      setIsFacingUser(isFacingUser);
+    });  
 
     // TEXT FOLDER
     const textFolder = guiSix.addFolder('Text');

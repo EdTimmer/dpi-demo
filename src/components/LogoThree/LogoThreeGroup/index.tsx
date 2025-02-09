@@ -11,19 +11,28 @@ import { listOfImages } from '../../../utilities/listOfImages';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
-  initialRotation: number;
-  rotationAmount: number;
+  isFacingUser: boolean;
+  setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
+function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
+  const [initialRotation, setInitialRotation] = useState(0);
   const logoThreeGroupRef = useRef<Group>(null);
+
+  useEffect(() => {
+    if (isFacingUser) {
+      setInitialRotation(0);
+    } else {
+      setInitialRotation(Math.PI);
+    }
+  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (logoThreeGroupRef.current) {
-      logoThreeGroupRef.current.rotation.y = initialRotation;
+      logoThreeGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
-  }, [initialRotation]);
+  }, [isFacingUser]);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
@@ -37,7 +46,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     if (
       isMouseEntered &&
       logoThreeGroupRef.current &&
-      logoThreeGroupRef.current.rotation.y <= initialRotation + rotationAmount
+      logoThreeGroupRef.current.rotation.y <= initialRotation + Math.PI
     ) {
       logoThreeGroupRef.current.rotation.y += 3 * delta;
     } else if (
@@ -48,6 +57,10 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       logoThreeGroupRef.current.rotation.y -= 3 * delta;
     }
   });
+
+  // ROTATION GUI REFS
+  const rotationFolderRef = useRef<GUI | null>(null);
+  const rotationControllersRef = useRef<Record<string, any>>({});
 
   // TEXT GUI REFS
   const textFolderRef = useRef<GUI | null>(null);
@@ -98,7 +111,23 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     // Position the GUI
     guiThree.domElement.style.position = 'absolute'; // Customize the position
     guiThree.domElement.style.left = '10px'; // Move this panel to the left side of the screen
-    guiThree.domElement.style.top = '920px'; // Move it down slightly
+    guiThree.domElement.style.top = '915px'; // Move it down slightly
+
+    // ROTATION FOLDER
+    const rotationFolder = guiThree.addFolder('Rotation');
+    rotationFolderRef.current = rotationFolder;
+
+    const localRotationProps = {
+      isFacingUser,
+    }
+
+    // add rotation controls for each property with a step increment of Math.PI
+    rotationControllersRef.current.isFacingUserController = rotationFolder
+      .add(localRotationProps, 'isFacingUser')
+      .name('Is Facing User')
+      .onChange((isFacingUser: boolean) => {
+        setIsFacingUser(isFacingUser);
+      });
 
     // TEXT FOLDER
     const textFolder = guiThree.addFolder('Text');

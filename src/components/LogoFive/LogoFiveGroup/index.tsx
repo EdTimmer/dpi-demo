@@ -129,7 +129,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     // Position the GUI
     guiFive.domElement.style.position = 'absolute';
     guiFive.domElement.style.left = '10px';
-    guiFive.domElement.style.top = '1550px';
+    guiFive.domElement.style.top = '1595px';
 
     // ROTATION FOLDER
     const rotationFolder = guiFive.addFolder('Rotation');

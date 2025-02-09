@@ -6,6 +6,8 @@ import LogoFourGroup from './LogoFourGroup';
 
 
 const LogoFourWrapper = () => {
+  const [isFacingUser, setIsFacingUser] = useState(true);
+
   const [isMouseEntered, setIsMouseEntered] = useState(false);
   const [isMouseLeft, setIsMouseLeft] = useState(false);
 
@@ -39,7 +41,7 @@ const LogoFourWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI} />
+        <LogoFourGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} isFacingUser={isFacingUser} setIsFacingUser={setIsFacingUser} />
         <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
         <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />        
         <OrbitControls enableDamping enableZoom={false} />

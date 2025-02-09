@@ -10,19 +10,28 @@ import GreenDotGlass from './GreenDotGlass';
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
-  initialRotation: number;
-  rotationAmount: number;
+  isFacingUser: boolean;
+  setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
+function LogoFourGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
+  const [initialRotation, setInitialRotation] = useState(0);
   const LogoFourGroupRef = useRef<Group>(null);
+
+  useEffect(() => {
+    if (isFacingUser) {
+      setInitialRotation(0);
+    } else {
+      setInitialRotation(Math.PI);
+    }
+  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (LogoFourGroupRef.current) {
-      LogoFourGroupRef.current.rotation.y = initialRotation;
+      LogoFourGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
-  }, []);
+  }, [isFacingUser]);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
@@ -36,7 +45,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     if (
       isMouseEntered &&
       LogoFourGroupRef.current &&
-      LogoFourGroupRef.current.rotation.y <= initialRotation + rotationAmount
+      LogoFourGroupRef.current.rotation.y <= initialRotation +  Math.PI
     ) {
       LogoFourGroupRef.current.rotation.y += 3 * delta;
     } else if (
@@ -47,6 +56,10 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
       LogoFourGroupRef.current.rotation.y -= 3 * delta;
     }
   });
+
+  // ROTATION GUI REFS
+  const rotationFolderRef = useRef<GUI | null>(null);
+  const rotationControllersRef = useRef<Record<string, any>>({});
 
   // TEXT BOLD GUI REFS
   const textBoldFolderRef = useRef<GUI | null>(null);
@@ -92,6 +105,22 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationA
     guiFour.domElement.style.position = 'absolute';
     guiFour.domElement.style.right = '10px';
     guiFour.domElement.style.top = '915px';
+
+      // ROTATION FOLDER
+      const rotationFolder = guiFour.addFolder('Rotation');
+      rotationFolderRef.current = rotationFolder;
+  
+      const localRotationProps = {
+        isFacingUser,
+      }
+  
+      // add rotation controls for each property with a step increment of Math.PI
+      rotationControllersRef.current.isFacingUserController = rotationFolder
+        .add(localRotationProps, 'isFacingUser')
+        .name('Is Facing User')
+        .onChange((isFacingUser: boolean) => {
+          setIsFacingUser(isFacingUser);
+        });
 
     // TEXT BOLD FOLDER
     const textBoldFolder = guiFour.addFolder('Text Bold');
