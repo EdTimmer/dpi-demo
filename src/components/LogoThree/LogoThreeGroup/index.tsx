@@ -6,6 +6,7 @@ import { GUI } from 'lil-gui';
 import Text from './Text';
 import Cushion from './Cushion';
 import GreenDotMetalTwo from './GreenDotMetalTwo';
+import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
@@ -54,34 +55,37 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
 
   const [textMaterialProps, setTextMaterialProps] = useState({
     color: '#fff',
-    metalness: 1.0,
+    metalness: 1,
     roughness: 0,
-    envMapIntensity: 1.0,
-    opacity: 1.0,
+    envMapIntensity: 1,
+    opacity: 1,
+    emissive: '#C0C0C0',
+    emissiveIntensity: 0,
   });
 
   // SPHERE GUI REFS
   const sphereFolderRef = useRef<GUI | null>(null);
   const sphereControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
-    color: '#4dff29',
-    metalness: 0,
-    roughness: 0.5,
-    opacity: 1.0,
-    emissive: '#000',
-    emissiveIntensity: 0,
+    color: '#5bd643',
+    metalness: 0.85,
+    roughness: 0,
+    opacity: 1,
+    emissive: '#5bd643',
+    emissiveIntensity: 0.2,
   });
 
   // CUSHION GUI REFS
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#000',
-    specular: '#fff',
-    shininess: 3, 
+    color: '#fff',
+    metalness: 1.0,
+    roughness: 0,
     opacity: 1,
     emissive: '#000',
     emissiveIntensity: 0,
+    envMapIntensity: 1,
   });
 
   useEffect(() => {
@@ -105,6 +109,8 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       roughness: textMaterialProps.roughness,
       envMapIntensity: textMaterialProps.envMapIntensity,
       opacity: textMaterialProps.opacity,
+      emissive: textMaterialProps.emissive,
+      emissiveIntensity: textMaterialProps.emissiveIntensity,
     };
 
     // Add controls for each property
@@ -141,6 +147,20 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .name('Opacity')
       .onChange((value: number) => {
         setTextMaterialProps(prev => ({ ...prev, opacity: value }));
+      });
+
+    textControllersRef.current.emissiveController = textFolder
+      .addColor(localTextProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setTextMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    textControllersRef.current.emissiveIntensityController = textFolder
+      .add(localTextProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setTextMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
       });
     
     // SPHERE FOLDER
@@ -207,10 +227,11 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
     const localCushionProps = {
       color: cushionMaterialProps.color,
       emissive: cushionMaterialProps.emissive,
-      specular: cushionMaterialProps.specular,
-      shininess: cushionMaterialProps.shininess,
       opacity: cushionMaterialProps.opacity,
       emissiveIntensity: cushionMaterialProps.emissiveIntensity,
+      metalness: cushionMaterialProps.metalness,
+      roughness: cushionMaterialProps.roughness,
+      envMapIntensity: cushionMaterialProps.envMapIntensity,
     };
     // Add controls for each property
     cushionControllersRef.current.colorController = cushionFolder
@@ -219,21 +240,6 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .onChange((value: string) => {
         setCushionMaterialProps(prev => ({ ...prev, color: value }));
       });
-
-    cushionControllersRef.current.specularController = cushionFolder
-      .addColor(localCushionProps, 'specular')
-      .name('Specular')
-      .onChange((value: string) => {
-        setCushionMaterialProps(prev => ({ ...prev, specular: value }));
-      });
-
-    cushionControllersRef.current.shininessController = cushionFolder
-      .add(localCushionProps, 'shininess', 0, 100, 1)
-      .name('Shininess')
-      .onChange((value: number) => {
-        setCushionMaterialProps(prev => ({ ...prev, shininess: value }));
-      });
-
 
     cushionControllersRef.current.opacityController = cushionFolder
       .add(localCushionProps, 'opacity', 0, 1, 0.01)
@@ -254,6 +260,27 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, initialRotation, rotation
       .name('Emissive Intensity')
       .onChange((value: number) => {
         setCushionMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
+      });
+
+    cushionControllersRef.current.metalnessController = cushionFolder
+      .add(localCushionProps, 'metalness', 0, 1, 0.01)
+      .name('Metalness')
+      .onChange((value: number) => {
+        setCushionMaterialProps(prev => ({ ...prev, metalness: value }));
+      });
+
+    cushionControllersRef.current.roughnessController = cushionFolder
+      .add(localCushionProps, 'roughness', 0, 1, 0.01)
+      .name('Roughness')
+      .onChange((value: number) => {
+        setCushionMaterialProps(prev => ({ ...prev, roughness: value }));
+      });
+
+    cushionControllersRef.current.envMapIntensityController = cushionFolder
+      .add(localCushionProps, 'envMapIntensity', 0, 2, 0.01)
+      .name('Env Map Intensity')
+      .onChange((value: number) => {
+        setCushionMaterialProps(prev => ({ ...prev, envMapIntensity: value }));
       });
 
     // Cleanup on unmount

@@ -16,6 +16,8 @@ interface Props {
     metalness: number;
     roughness: number;
     opacity: number;
+    emissive: string;
+    emissiveIntensity: number;
   }
 }
 
@@ -23,7 +25,7 @@ const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Prop
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
-  const texture = useLoader(THREE.TextureLoader, '/images/rainbow_1.jpg');
+  const texture = useLoader(THREE.TextureLoader, '/images/silver_7.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -73,6 +75,8 @@ const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Prop
         envMap={envMap}
         envMapIntensity={textMaterialProps.envMapIntensity}
         opacity={textMaterialProps.opacity}
+        emissive={textMaterialProps.emissive}
+        emissiveIntensity={textMaterialProps.emissiveIntensity}
         transparent
       />
     </mesh>

@@ -125,6 +125,11 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
       '/images/ripples.jpg',
       '/images/silver_1.jpg',
       '/images/silver_4.jpg',
+      '/images/oil-bright-blue.jpg',
+      '/images/oil-green.jpg',
+      '/images/silver_6.jpg',
+      '/images/silver_7.jpg',
+      '/images/silver_8.jpg',
     ],
     envMapImage: '/images/bw_1.png',
   });
