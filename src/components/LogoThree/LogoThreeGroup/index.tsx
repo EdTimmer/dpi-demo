@@ -6,7 +6,6 @@ import { GUI } from 'lil-gui';
 import Text from './Text';
 import Cushion from './Cushion';
 import GreenDotMetalTwo from './GreenDotMetalTwo';
-import { emissive } from 'three/webgpu';
 
 interface Props {
   isMouseEntered: boolean;
