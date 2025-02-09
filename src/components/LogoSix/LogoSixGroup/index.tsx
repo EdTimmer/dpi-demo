@@ -79,7 +79,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAm
     // Position the GUI
     guiSix.domElement.style.position = 'absolute';
     guiSix.domElement.style.right = '10px';
-    guiSix.domElement.style.top = '1370px';
+    guiSix.domElement.style.top = '1395px';
 
     // TEXT FOLDER
     const textFolder = guiSix.addFolder('Text');

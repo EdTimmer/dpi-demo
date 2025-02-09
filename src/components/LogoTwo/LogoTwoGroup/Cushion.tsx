@@ -15,13 +15,15 @@ interface Props {
     envMapIntensity: number;
     emissive: string;
     emissiveIntensity: number;
+    envMapImages: string[];
+    envMapImage: string;
   },
 }
 
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, '/images/bw_5.png');
+  const texture = useLoader(THREE.TextureLoader, cushionMaterialProps.envMapImage);
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;

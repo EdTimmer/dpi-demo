@@ -113,6 +113,20 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
     emissive: '#fff',
     emissiveIntensity: 0.01,
     envMapIntensity: 1.0,
+    envMapImages: [
+      '/images/bw_1.png',
+      '/images/silver_5.jpg',
+      '/images/bw_2.jpg',
+      '/images/bw_3.jpg',
+      '/images/bw_4.jpg',
+      '/images/flower.jpg',
+      '/images/oil-blue.jpg',
+      '/images/rainbow_1.jpg',
+      '/images/ripples.jpg',
+      '/images/silver_1.jpg',
+      '/images/silver_4.jpg',
+    ],
+    envMapImage: '/images/bw_1.png',
   });
 
   // CUSHION COVER GUI REFS
@@ -334,9 +348,19 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
       envMapIntensity: cushionMaterialProps.envMapIntensity,
       emissive: cushionMaterialProps.emissive,
       emissiveIntensity: cushionMaterialProps.emissiveIntensity,
+      envMapImages: cushionMaterialProps.envMapImages,
+      envMapImage: cushionMaterialProps.envMapImage,     
     }
 
     // add controls for each property
+    cushionControllersRef.current.envMapImageController = cushionFolder
+      .add(localCushionProps, 'envMapImage', cushionMaterialProps.envMapImages) // Passing the array creates a dropdown.
+      .name('Reflected Image')
+      .onChange((selectedImage: string) => {
+        // Update your material props with the selected image directly.
+        setCushionMaterialProps((prev) => ({ ...prev, envMapImage: selectedImage }));
+      });
+
     cushionControllersRef.current.colorController = cushionFolder
       .addColor(localCushionProps, 'color')
       .name('Color')
@@ -384,7 +408,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
       .name('Emissive Intensity')
       .onChange((emissiveIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
-      });
+      });    
     
     // CUSHION COVER FOLDER
     const cushionCoverFolder = guiTwo.addFolder('Cushion Cover');
@@ -408,7 +432,7 @@ function LogoTwoGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
       .name('Opacity')
       .onChange((opacity: number) => {
         setCushionCoverMaterialProps((prev) => ({ ...prev, opacity }));
-      });    
+      });
 
     return () => {
       guiTwo.destroy();

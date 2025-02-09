@@ -3,9 +3,9 @@ import {
   AppContainer,
   Row,
 } from './App.styles'
-import LogoOneWrapper from './components/LogoOne/LogoOneWrapper';
-import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
 import LogoThreeWrapper from './components/LogoThree/LogoThreeWrapper';
+import LogoSixWrapper from './components/LogoSix/LogoSixWrapper';
+import LogoOneWrapper from './components/LogoOne/LogoOneWrapper';
 import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
 import LogoFiveWrapper from './components/LogoFive/LogoFiveWrapper';
 import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
