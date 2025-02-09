@@ -7,7 +7,7 @@ export const AppWrapper = styled.div`
   font-family: 'Roboto Mono', monospace;
   padding: 0 370px;
   width: 100%;
-  height: 2063px;
+  height: 2463px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -17,22 +17,29 @@ export const AppWrapper = styled.div`
   /* gap: 100px; */
 `;
 
-export const AppContainer = styled.div`
+export const AppMiddleColumn = styled.div`
   position: relative;
   z-index: 1;
   /* font-family: 'Roboto Mono', monospace; */
   /* padding: 30px; */
-  padding-top: 150px;
+  padding-top: 10px;
   margin: 10px 0;
   width: 100%;
   height: 100%;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: center;
+  align-items: center; */
   overflow: hidden;
   background-color: ${colors.eerieBlack};
-  gap: 100px;
+  /* gap: 100px; */
+`;
+
+export const CenterSectionWrapper = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export const Row = styled.div`

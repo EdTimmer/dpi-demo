@@ -5,34 +5,23 @@ import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
 import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
-import CushionCover from './CushionCover';
-import { listOfImages } from '../../../utilities/listOfImages';
 
 interface Props {
   isMouseEntered: boolean;
   isMouseLeft: boolean;
-  isFacingUser: boolean;
-  setIsFacingUser: (isFacingUser: boolean) => void;
+  initialRotation: number;
+  rotationAmount: number;
 }
 
-function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingUser }: Props) {
-  const [initialRotation, setInitialRotation] = useState(0);
+function LogoFiveGroup({ isMouseEntered, isMouseLeft, initialRotation, rotationAmount }: Props) {
   const LogoFiveGroupRef = useRef<Group>(null);
-
-  useEffect(() => {
-    if (isFacingUser) {
-      setInitialRotation(0);
-    } else {
-      setInitialRotation(Math.PI);
-    }
-  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
     if (LogoFiveGroupRef.current) {
-      LogoFiveGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
+      LogoFiveGroupRef.current.rotation.y = initialRotation;
     }
-  }, [isFacingUser]);
+  }, []);
 
   useFrame((state, delta) => {
     const time = state.clock.getElapsedTime();
@@ -46,7 +35,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     if (
       isMouseEntered &&
       LogoFiveGroupRef.current &&
-      LogoFiveGroupRef.current.rotation.y <= initialRotation + Math.PI
+      LogoFiveGroupRef.current.rotation.y <= initialRotation + rotationAmount
     ) {
       LogoFiveGroupRef.current.rotation.y += 3 * delta;
     } else if (
@@ -58,32 +47,24 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     }
   });
 
-  // ROTATION GUI REFS
-  const rotationFolderRef = useRef<GUI | null>(null);
-  const rotationControllersRef = useRef<Record<string, any>>({});
-
   // TEXT BOLD GUI REFS
   const textBoldFolderRef = useRef<GUI | null>(null);
   const textBoldControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
-    color: '#fff',
-    metalness: 0,
-    roughness: 1,
+    color: '#000',
+    metalness: 1.0,
+    roughness: 0,
     opacity: 1.0,
-    emissive: '#fff',
-    emissiveIntensity: 0.4,
   });
 
   // TEXT LIGHT GUI REFS
   const textLightFolderRef = useRef<GUI | null>(null);
   const textLightControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
-    color: '#fff',
-    metalness: 0,
-    roughness: 1,
+    color: '#000',
+    metalness: 1.0,
+    roughness: 0,
     opacity: 1.0,
-    emissive: '#fff',
-    emissiveIntensity: 0.4,
   });
 
   // SPHERE GUI REFS
@@ -94,8 +75,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     metalness: 0,
     roughness: 1,
     opacity: 1.0,
-    emissive: '#4dff29',
-    emissiveIntensity: 0.2,
   });
 
   // CUSHION GUI REFS
@@ -108,17 +87,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     metalness: 1.0,
     envMapIntensity: 1.0,
     emissive: '#fff',
-    emissiveIntensity: 0,
-    envMapImages: listOfImages,
-    envMapImage: '/images/silver_5.jpg',
-  });
-
-  // CUSHION COVERAGE GUI REFS
-  const cushionCoverFolderRef = useRef<GUI | null>(null);
-  const cushionCoverageControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
-  const [cushionCoverMaterialProps, setCushionCoverageMaterialProps] = useState({
-    color: '#e4e3e3',
-    opacity: 0.3,
+    emissiveIntensity: 0.3,
   });
 
   useEffect(() => {
@@ -131,22 +100,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
     guiFive.domElement.style.left = '10px';
     guiFive.domElement.style.top = '1550px';
 
-    // ROTATION FOLDER
-    const rotationFolder = guiFive.addFolder('Rotation');
-    rotationFolderRef.current = rotationFolder;
-
-    const localRotationProps = {
-      isFacingUser,
-    }
-
-    // add rotation controls for each property with a step increment of Math.PI
-    rotationControllersRef.current.isFacingUserController = rotationFolder
-      .add(localRotationProps, 'isFacingUser')
-      .name('Is Facing User')
-      .onChange((isFacingUser: boolean) => {
-        setIsFacingUser(isFacingUser);
-      });
-
     // TEXT BOLD FOLDER
     const textBoldFolder = guiFive.addFolder('Text Bold');
     textBoldFolderRef.current = textBoldFolder;
@@ -156,8 +109,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
       metalness: textBoldMaterialProps.metalness,
       roughness: textBoldMaterialProps.roughness,
       opacity: textBoldMaterialProps.opacity,
-      emissive: textBoldMaterialProps.emissive,
-      emissiveIntensity: textBoldMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -189,20 +140,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
         setTextBoldMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
-    textBoldControllersRef.current.emissiveController = textBoldFolder
-      .addColor(localTextBoldProps, 'emissive')
-      .name('Emissive')
-      .onChange((emissive: string) => {
-        setTextBoldMaterialProps((prev) => ({ ...prev, emissive }));
-      });
-
-    textBoldControllersRef.current.emissiveIntensityController = textBoldFolder
-      .add(localTextBoldProps, 'emissiveIntensity', 0, 1, 0.01)
-      .name('Emissive Intensity')
-      .onChange((emissiveIntensity: number) => {
-        setTextBoldMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
-      });
-
     // TEXT LIGHT FOLDER
     const textLightFolder = guiFive.addFolder('Text Light');
     textLightFolderRef.current = textLightFolder;
@@ -212,8 +149,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
       metalness: textLightMaterialProps.metalness,
       roughness: textLightMaterialProps.roughness,
       opacity: textLightMaterialProps.opacity,
-      emissive: textLightMaterialProps.emissive,
-      emissiveIntensity: textLightMaterialProps.emissiveIntensity
     }
 
     // add controls for each property
@@ -245,20 +180,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
         setTextLightMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
-    textLightControllersRef.current.emissiveController = textLightFolder
-      .addColor(localTextLightProps, 'emissive')
-      .name('Emissive')
-      .onChange((emissive: string) => {
-        setTextLightMaterialProps((prev) => ({ ...prev, emissive }));
-      });
-
-    textLightControllersRef.current.emissiveIntensityController = textLightFolder
-      .add(localTextLightProps, 'emissiveIntensity', 0, 1, 0.01)
-      .name('Emissive Intensity')
-      .onChange((emissiveIntensity: number) => {
-        setTextLightMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
-      });
-
     // SPHERE FOLDER
     const sphereFolder = guiFive.addFolder('Sphere');
     sphereFolderRef.current = sphereFolder;
@@ -268,8 +189,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
       metalness: sphereMaterialProps.metalness,
       roughness: sphereMaterialProps.roughness,
       opacity: sphereMaterialProps.opacity,
-      emissive: sphereMaterialProps.emissive,
-      emissiveIntensity: sphereMaterialProps.emissiveIntensity
     }
 
     // add controls for each property
@@ -301,20 +220,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
         setSphereMaterialProps((prev) => ({ ...prev, opacity }));
       });
 
-    sphereControllersRef.current.emissiveController = sphereFolder
-      .addColor(localSphereProps, 'emissive')
-      .name('Emissive')
-      .onChange((emissive: string) => {
-        setSphereMaterialProps((prev) => ({ ...prev, emissive }));
-      });
-
-    sphereControllersRef.current.emissiveIntensityController = sphereFolder
-      .add(localSphereProps, 'emissiveIntensity', 0, 1, 0.01)
-      .name('Emissive Intensity')
-      .onChange((emissiveIntensity: number) => {
-        setSphereMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
-      });
-
     // CUSHION FOLDER
     const cushionFolder = guiFive.addFolder('Cushion');
     cushionFolderRef.current = cushionFolder;
@@ -327,19 +232,9 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
       envMapIntensity: cushionMaterialProps.envMapIntensity,
       emissive: cushionMaterialProps.emissive,
       emissiveIntensity: cushionMaterialProps.emissiveIntensity,
-      envMapImages: cushionMaterialProps.envMapImages,
-      envMapImage: cushionMaterialProps.envMapImage,
     }
 
     // add controls for each property
-    cushionControllersRef.current.envMapImageController = cushionFolder
-    .add(localCushionProps, 'envMapImage', cushionMaterialProps.envMapImages) // Passing the array creates a dropdown.
-    .name('Reflected Image')
-    .onChange((selectedImage: string) => {
-      // Update your material props with the selected image directly.
-      setCushionMaterialProps((prev) => ({ ...prev, envMapImage: selectedImage }));
-    });
-
     cushionControllersRef.current.colorController = cushionFolder
       .addColor(localCushionProps, 'color')
       .name('Color')
@@ -374,7 +269,7 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
       .onChange((envMapIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
       });
-
+    
     cushionControllersRef.current.emissiveController = cushionFolder
       .addColor(localCushionProps, 'emissive')
       .name('Emissive')
@@ -382,37 +277,12 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
         setCushionMaterialProps((prev) => ({ ...prev, emissive }));
       });
 
-    cushionControllersRef.current.emissiveIntensityController = cushionFolder
+     cushionControllersRef.current.emissiveIntensityController = cushionFolder
       .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
       .name('Emissive Intensity')
       .onChange((emissiveIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
-
-    // CUSHION COVERAGE FOLDER
-    const cushionCoverFolder = guiFive.addFolder('Cushion Cover');
-    cushionCoverFolderRef.current = cushionCoverFolder;
-
-    const localCushionCoverageProps = {
-      color: cushionCoverMaterialProps.color,
-      opacity: cushionCoverMaterialProps.opacity,
-    }
-
-    // add controls for each property
-    cushionCoverageControllersRef.current.colorController = cushionCoverFolder
-      .addColor(localCushionCoverageProps, 'color')
-      .name('Color')
-      .onChange((color: string) => {
-        setCushionCoverageMaterialProps((prev) => ({ ...prev, color }));
-      });
-
-    cushionCoverageControllersRef.current.opacityController = cushionCoverFolder
-      .add(localCushionCoverageProps, 'opacity', 0, 1, 0.01)
-      .name('Opacity')
-      .onChange((opacity: number) => {
-        setCushionCoverageMaterialProps((prev) => ({ ...prev, opacity }));
-      });
-    
 
     return () => {
       guiFive.destroy();
@@ -427,7 +297,6 @@ function LogoFiveGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacing
         textLightMaterialProps={textLightMaterialProps}
         sphereMaterialProps={sphereMaterialProps}
       />
-      <CushionCover size={0.92} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionCoverMaterialProps={cushionCoverMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );

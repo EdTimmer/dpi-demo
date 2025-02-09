@@ -7,22 +7,20 @@ interface Props {
   position: [number, number, number];
   rotation: THREE.Euler;
   text: string;
-  textBoldMaterialProps: {
+  textLightMaterialProps: {
     color: string;
     metalness: number;
     roughness: number;
     opacity: number;
-    emissive: string;
-    emissiveIntensity: number;
   },
 }
 
-const LogoTextBold = ({ position, rotation, text, textBoldMaterialProps }: Props) => {
+const LogoTextLight = ({ position, rotation, text, textLightMaterialProps }: Props) => {
   const [font, setFont] = useState<Font | null>(null);
 
   useEffect(() => {
     const loader = new FontLoader();
-    loader.load('/fonts/mediator_narrow_web_extra_bold_regular.typeface.json', (loadedFont) => {
+    loader.load('/fonts/open_sans_light_regular.typeface.json', (loadedFont) => {
       setFont(loadedFont);
     });
   }, []);
@@ -33,7 +31,7 @@ const LogoTextBold = ({ position, rotation, text, textBoldMaterialProps }: Props
   
       const textOptions = {
         font,
-        size: 1.6,
+        size: 1.3,
         depth: 0.8,
         curveSegments: 12,
         bevelEnabled: false,
@@ -55,18 +53,16 @@ const LogoTextBold = ({ position, rotation, text, textBoldMaterialProps }: Props
     if (!font || !textGeometry) return null;
 
   return (
-    <mesh geometry={textGeometry} rotation={rotation} position={position} renderOrder={2}>
+    <mesh geometry={textGeometry} rotation={rotation} position={position} renderOrder={3}>
       <meshStandardMaterial 
-        metalness={textBoldMaterialProps.metalness}
-        roughness={textBoldMaterialProps.roughness}
-        color={textBoldMaterialProps.color}
-        opacity={textBoldMaterialProps.opacity}
-        emissive={textBoldMaterialProps.emissive}
-        emissiveIntensity={textBoldMaterialProps.emissiveIntensity}
+        metalness={textLightMaterialProps.metalness}
+        roughness={textLightMaterialProps.roughness}
+        color={textLightMaterialProps.color}
+        opacity={textLightMaterialProps.opacity}
         transparent
       />
     </mesh>
   );
 };
 
-export default LogoTextBold;
+export default LogoTextLight;

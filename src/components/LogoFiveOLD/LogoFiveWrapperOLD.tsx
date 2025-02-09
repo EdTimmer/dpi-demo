@@ -4,9 +4,7 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import LogoFiveGroup from './LogoFiveGroup';
 
-const LogoFiveWrapper = () => {
-  const [isFacingUser, setIsFacingUser] = useState(true);
-
+const LogoFiveWrapperOLD = () => {
   const [isMouseEntered, setIsMouseEntered] = useState(false);
   const [isMouseLeft, setIsMouseLeft] = useState(false);
 
@@ -19,15 +17,15 @@ const LogoFiveWrapper = () => {
     setIsMouseLeft(true);
   }
 
-  const leftLightRef = useRef<THREE.DirectionalLight | null>(null);
-  const leftLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
+  const bottomLightRef = useRef<THREE.DirectionalLight | null>(null);
+  const topLightRefTwo = useRef<THREE.DirectionalLight | null>(null);
 
   useEffect(() => {
-    if (leftLightRef.current) {
-      leftLightRef.current.lookAt(-1, -0.9, 0);
+    if (bottomLightRef.current) {
+      bottomLightRef.current.lookAt(-2, -0.9, 0);
     }
-    if (leftLightRefTwo.current) {
-      leftLightRefTwo.current.lookAt(-1, -0.9, 0);
+    if (topLightRefTwo.current) {
+      topLightRefTwo.current.lookAt(-2, 0.9, 0);
     }
   }, []);
 
@@ -40,13 +38,16 @@ const LogoFiveWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} isFacingUser={isFacingUser} setIsFacingUser={setIsFacingUser} />
-        {/* <directionalLight position={[2, 5, 5]} intensity={1} /> */}
-        <directionalLight position={[-2, 5, 5]} intensity={1} />
+        <LogoFiveGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} initialRotation={0} rotationAmount={Math.PI} />
+        <directionalLight position={[2, 5, 5]} intensity={1} />
+        {/* <directionalLight position={[-5, 0, 10]} intensity={1} />
+        <directionalLight position={[5, 0, 10]} intensity={1} /> */}
+        {/* <directionalLight ref={topLightRefTwo} position={[0, 2, 10]} intensity={0.1} />
+        <directionalLight ref={bottomLightRef} position={[0, -2, 10]} intensity={0.1} />  */}
         <OrbitControls enableDamping enableZoom={false} />
       </Canvas>
     </div>        
   );
 }
 
-export default LogoFiveWrapper;
+export default LogoFiveWrapperOLD;

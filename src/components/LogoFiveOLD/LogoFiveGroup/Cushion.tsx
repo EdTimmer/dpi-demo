@@ -15,15 +15,13 @@ interface Props {
     envMapIntensity: number;
     emissive: string;
     emissiveIntensity: number;
-    envMapImages: string[];
-    envMapImage: string;
   },
 }
 
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
-  const shapeFiveRef = useRef<THREE.Mesh>(null); 
+  const shapeOneRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, cushionMaterialProps.envMapImage);
+  const texture = useLoader(THREE.TextureLoader, '/images/bw_4.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
@@ -31,7 +29,7 @@ const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Prop
   }, [texture]);
 
   return (
-    <mesh ref={shapeFiveRef} position={position} rotation={rotation} scale={scale} renderOrder={1}>
+    <mesh ref={shapeOneRef} position={position} rotation={rotation} scale={scale} renderOrder={1}>
       <sphereGeometry args={[size, 32, 32]} />
       <meshStandardMaterial
         envMap={envMap}
