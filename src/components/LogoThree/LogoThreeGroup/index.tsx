@@ -100,7 +100,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacing
     emissiveIntensity: 0,
     envMapIntensity: 1,
     envMapImages: listOfImages,
-    envMapImage: '/images/bw_3.jpg',
+    envMapImage: '/images/img_4.png',
   });
 
   useEffect(() => {
@@ -333,7 +333,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacing
   return (
     <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoThreeGroupRef}>
       <Text text={'D'} position={[-0.1, 0.05, 0.3]} rotation={new THREE.Euler(0, 0, 0)} size={1.7} depth={0.5} textMaterialProps={textMaterialProps} />
-      <GreenDotMetalTwo size={0.25} position={[0.8, -0.55, 0.37]} sphereMaterialProps={sphereMaterialProps} />
+      <GreenDotMetalTwo size={0.25} position={[0.8, -0.525, 0.37]} sphereMaterialProps={sphereMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );
