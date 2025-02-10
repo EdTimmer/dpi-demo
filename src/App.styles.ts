@@ -19,7 +19,7 @@ export const AppWrapper = styled.div`
 export const AppMiddleColumn = styled.div`
   position: relative;
   z-index: 1;
-  padding-top: 10px;
+  /* padding-top: 10px; */
   margin: 10px 0;
   width: 100%;
   height: 100%;
@@ -39,7 +39,7 @@ export const Row = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  margin-bottom: -100px;
   padding: 0;
   flex-wrap: wrap;
 
