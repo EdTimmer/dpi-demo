@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group } from 'three';
+import { Group, MathUtils } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
@@ -10,53 +10,47 @@ import { listOfImages } from '../../../utilities/listOfImages';
 
 interface Props {
   isMouseEntered: boolean;
-  isMouseLeft: boolean;
   isFacingUser: boolean;
   setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoOneGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingUser }: Props) {
-  const [initialRotation, setInitialRotation] = useState(0);
-  const LogoOneGroupRef = useRef<Group>(null);
-
-  useEffect(() => {
-    if (isFacingUser) {
-      setInitialRotation(0);
-    } else {
-      setInitialRotation(Math.PI);
-    }
-  }, [isFacingUser]);
+function LogoOneGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
+  const logoOneGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
-    if (LogoOneGroupRef.current) {
-      LogoOneGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
+    if (logoOneGroupRef.current) {
+      logoOneGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
   }, [isFacingUser]);
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
-    
-    // The small 'breathing' rotation in X:
-    if (LogoOneGroupRef.current) {
-      LogoOneGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
-    }
+      if (logoOneGroupRef.current) {
+        // Apply a "breathing" effect on the X axis.
+        logoOneGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
   
-    // Then the Y rotation on mouse enter/leave, scaled by delta:
-    if (
-      isMouseEntered &&
-      LogoOneGroupRef.current &&
-      LogoOneGroupRef.current.rotation.y <= initialRotation + Math.PI
-    ) {
-      LogoOneGroupRef.current.rotation.y += 3 * delta;
-    } else if (
-      isMouseLeft &&
-      LogoOneGroupRef.current &&
-      LogoOneGroupRef.current.rotation.y >= initialRotation
-    ) {
-      LogoOneGroupRef.current.rotation.y -= 3 * delta;
-    }
-  });
+        // Determine the starting rotation.
+        const initialRotation = isFacingUser ? 0 : Math.PI;
+        // Set the target rotation: rotate an extra PI when the mouse enters.
+        const targetY = isMouseEntered ? initialRotation + Math.PI : initialRotation;
+        
+        // Incorporate delta into the interpolation factor for frame rate independence.
+        const speed = 3; // Adjust this to control the smoothness/speed
+        const lerpFactor = 1 - Math.exp(-speed * delta);
+        
+        // Interpolate the current rotation towards the target rotation.
+        logoOneGroupRef.current.rotation.y = MathUtils.lerp(
+          logoOneGroupRef.current.rotation.y,
+          targetY,
+          lerpFactor
+        );
+  
+        // Optionally, snap to target if very close.
+        if (Math.abs(logoOneGroupRef.current.rotation.y - targetY) < 0.001) {
+          logoOneGroupRef.current.rotation.y = targetY;
+        }
+      }
+    });
 
   // ROTATION GUI REFS
   const rotationFolderRef = useRef<GUI | null>(null);
@@ -124,7 +118,7 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingU
   useEffect(() => {
     const guiOne = new GUI({
       width: 350,
-      title: 'TOP LEFT PIN'
+      title: 'LEFT - FIRST FROM THE TOP'
     });
     // Position the GUI
     guiOne.domElement.style.position = 'absolute';
@@ -413,15 +407,13 @@ function LogoOneGroup({ isMouseEntered, isMouseLeft,  isFacingUser, setIsFacingU
         setCushionCoverageMaterialProps((prev) => ({ ...prev, opacity }));
       });
     
-
     return () => {
       guiOne.destroy();
     }
-
   }, []);
 
   return (
-    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoOneGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoOneGroupRef}>
       <DeloitteDigitalLogoGroup
         textBoldMaterialProps={textBoldMaterialProps}
         textLightMaterialProps={textLightMaterialProps}

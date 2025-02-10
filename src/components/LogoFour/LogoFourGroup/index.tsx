@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group } from 'three';
+import { Group, MathUtils } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
@@ -9,51 +9,45 @@ import GreenDotGlass from './GreenDotGlass';
 
 interface Props {
   isMouseEntered: boolean;
-  isMouseLeft: boolean;
   isFacingUser: boolean;
   setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoFourGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
-  const [initialRotation, setInitialRotation] = useState(0);
-  const LogoFourGroupRef = useRef<Group>(null);
-
-  useEffect(() => {
-    if (isFacingUser) {
-      setInitialRotation(0);
-    } else {
-      setInitialRotation(Math.PI);
-    }
-  }, [isFacingUser]);
+function LogoFourGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
+  const logoFourGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
-    if (LogoFourGroupRef.current) {
-      LogoFourGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
+    if (logoFourGroupRef.current) {
+      logoFourGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
   }, [isFacingUser]);
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
-    
-    // The small 'breathing' rotation in X:
-    if (LogoFourGroupRef.current) {
-      LogoFourGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
-    }
-  
-    // Then the Y rotation on mouse enter/leave, scaled by delta:
-    if (
-      isMouseEntered &&
-      LogoFourGroupRef.current &&
-      LogoFourGroupRef.current.rotation.y <= initialRotation +  Math.PI
-    ) {
-      LogoFourGroupRef.current.rotation.y += 3 * delta;
-    } else if (
-      isMouseLeft &&
-      LogoFourGroupRef.current &&
-      LogoFourGroupRef.current.rotation.y >= initialRotation
-    ) {
-      LogoFourGroupRef.current.rotation.y -= 3 * delta;
+    if (logoFourGroupRef.current) {
+      // Apply a "breathing" effect on the X axis.
+      logoFourGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
+
+      // Determine the starting rotation.
+      const initialRotation = isFacingUser ? 0 : Math.PI;
+      // Set the target rotation: rotate an extra PI when the mouse enters.
+      const targetY = isMouseEntered ? initialRotation + Math.PI : initialRotation;
+      
+      // Incorporate delta into the interpolation factor for frame rate independence.
+      const speed = 3; // Adjust this to control the smoothness/speed
+      const lerpFactor = 1 - Math.exp(-speed * delta);
+      
+      // Interpolate the current rotation towards the target rotation.
+      logoFourGroupRef.current.rotation.y = MathUtils.lerp(
+        logoFourGroupRef.current.rotation.y,
+        targetY,
+        lerpFactor
+      );
+
+      // Optionally, snap to target if very close.
+      if (Math.abs(logoFourGroupRef.current.rotation.y - targetY) < 0.001) {
+        logoFourGroupRef.current.rotation.y = targetY;
+      }
     }
   });
 
@@ -97,7 +91,7 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingU
 
   useEffect(() => {
     const guiFour = new GUI({
-      title: 'CENTER RIGHT PIN',
+      title: 'RIGHT - SECOND FROM THE TOP',
       width: 350,
     });
 
@@ -265,12 +259,11 @@ function LogoFourGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingU
 
     return () => {
       guiFour.destroy();
-    }
-    
+    }    
   }, []);
 
   return (
-    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={LogoFourGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoFourGroupRef}>
       <LogoTextBold text={'Deloitte'} position={[-0.085, 0.05, 0.3]} rotation={new THREE.Euler(0, 0, 0)} textBoldMaterialProps={textBoldMaterialProps} />
       <GreenDotGlass size={0.3} position={[1.35, -0.18, 0.35]} sphereMaterialProps={sphereMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />

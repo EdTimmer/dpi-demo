@@ -11,6 +11,8 @@ import LogoFourWrapper from './components/LogoFour/LogoFourWrapper';
 // import LogoFiveWrapperOLD from './components/LogoFiveOLD/LogoFiveWrapperOLD';
 import LogoTwoWrapper from './components/LogoTwo/LogoTwoWrapper';
 import LogoFiveWrapper from './components/LogoFive/LogoFiveWrapper';
+import LogoSevenWrapper from './components/LogoSeven/LogoSevenWrapper';
+import LogoEightWrapper from './components/LogoEight/LogoEightWrapper';
 
 function App() {
   return (
@@ -31,6 +33,13 @@ function App() {
             <LogoFiveWrapper />
             <LogoSixWrapper />
           </Row>
+
+          <Row>
+            <LogoSevenWrapper />
+            <LogoEightWrapper />
+          </Row>
+
+
         </CenterSectionWrapper>
       </AppMiddleColumn>
     </AppWrapper>

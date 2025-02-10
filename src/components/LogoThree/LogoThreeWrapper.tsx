@@ -6,17 +6,13 @@ import LogoThreeGroup from './LogoThreeGroup';
 
 const LogoThreeWrapper = () => {
   const [isFacingUser, setIsFacingUser] = useState(true);
-
   const [isMouseEntered, setIsMouseEntered] = useState(false);
-  const [isMouseLeft, setIsMouseLeft] = useState(false);
 
   const handleMouseEnter = () => {
     setIsMouseEntered(true);
-    setIsMouseLeft(false);
   }
   const handleMouseLeave = () => {
     setIsMouseEntered(false);
-    setIsMouseLeft(true);
   }
 
   return (
@@ -28,7 +24,7 @@ const LogoThreeWrapper = () => {
       <Canvas gl={{ antialias: true }}>
         <PerspectiveCamera makeDefault fov={20} position={[0, 0, 20]} />
         <ambientLight intensity={1} />
-        <LogoThreeGroup isMouseEntered={isMouseEntered} isMouseLeft={isMouseLeft} isFacingUser={isFacingUser} setIsFacingUser={setIsFacingUser} />
+        <LogoThreeGroup isMouseEntered={isMouseEntered} isFacingUser={isFacingUser} setIsFacingUser={setIsFacingUser} />
         {/* <directionalLight position={[-5, 3, 5]} intensity={0.5} />
         <directionalLight position={[5, 3, 5]} intensity={0.5} />
         <directionalLight position={[-5, -5, 5]} intensity={0.5} />         */}

@@ -4,9 +4,10 @@ import { Group, MathUtils } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Cushion from './Cushion';
-import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 import CushionCover from './CushionCover';
+import DeloitteDigitalLogoGroup from './DeloitteDigitalLogoGroup';
 import { listOfImages } from '../../../utilities/listOfImages';
+import DPIText from './DPIText';
 
 interface Props {
   isMouseEntered: boolean;
@@ -14,20 +15,21 @@ interface Props {
   setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
-  const logoFiveGroupRef = useRef<Group>(null);
+function LogoEightGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
+  const logoEightGroupRef = useRef<Group>(null);
 
   // Set the initial rotation on mount only
   useEffect(() => {
-    if (logoFiveGroupRef.current) {
-      logoFiveGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
+    // const initialRotation = isFacingUser ? 0 : Math.PI;
+    if (logoEightGroupRef.current) {
+      logoEightGroupRef.current.rotation.y = isFacingUser ? 0 : Math.PI;
     }
   }, [isFacingUser]);
 
   useFrame((state, delta) => {
-    if (logoFiveGroupRef.current) {
+    if (logoEightGroupRef.current) {
       // Apply a "breathing" effect on the X axis.
-      logoFiveGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
+      logoEightGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
 
       // Determine the starting rotation.
       const initialRotation = isFacingUser ? 0 : Math.PI;
@@ -39,22 +41,26 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       const lerpFactor = 1 - Math.exp(-speed * delta);
       
       // Interpolate the current rotation towards the target rotation.
-      logoFiveGroupRef.current.rotation.y = MathUtils.lerp(
-        logoFiveGroupRef.current.rotation.y,
+      logoEightGroupRef.current.rotation.y = MathUtils.lerp(
+        logoEightGroupRef.current.rotation.y,
         targetY,
         lerpFactor
       );
 
       // Optionally, snap to target if very close.
-      if (Math.abs(logoFiveGroupRef.current.rotation.y - targetY) < 0.001) {
-        logoFiveGroupRef.current.rotation.y = targetY;
+      if (Math.abs(logoEightGroupRef.current.rotation.y - targetY) < 0.001) {
+        logoEightGroupRef.current.rotation.y = targetY;
       }
     }
   });
 
   // ROTATION GUI REFS
   const rotationFolderRef = useRef<GUI | null>(null);
-  const rotationControllersRef = useRef<Record<string, any>>({});
+  const rotationControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  // const [rotationProps, setRotationProps] = useState({
+  //   initialRotation,
+  //   rotationAmount,
+  // });
 
   // TEXT BOLD GUI REFS
   const textBoldFolderRef = useRef<GUI | null>(null);
@@ -62,7 +68,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
   const [textBoldMaterialProps, setTextBoldMaterialProps] = useState({
     color: '#fff',
     metalness: 0,
-    roughness: 1,
+    roughness: 1.0,
     opacity: 1.0,
     emissive: '#fff',
     emissiveIntensity: 0.4,
@@ -74,10 +80,22 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
   const [textLightMaterialProps, setTextLightMaterialProps] = useState({
     color: '#fff',
     metalness: 0,
-    roughness: 1,
+    roughness: 1.0,
     opacity: 1.0,
     emissive: '#fff',
     emissiveIntensity: 0.4,
+  });
+
+  // DPI TEXT GUI REFS
+  const dpiTextFolderRef = useRef<GUI | null>(null);
+  const dpiTextControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  const [dpiTextMaterialProps, setDpiTextMaterialProps] = useState({
+    color: '#fff',
+    opacity: 1.0,
+    roughness: 1,       
+    metalness: 0,
+    emissive: '#fff',
+    emissiveIntensity: 0.5,
   });
 
   // SPHERE GUI REFS
@@ -86,7 +104,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
   const [sphereMaterialProps, setSphereMaterialProps] = useState({
     color: '#4dff29',
     metalness: 0,
-    roughness: 1,
+    roughness: 1.0,
     opacity: 1.0,
     emissive: '#4dff29',
     emissiveIntensity: 0.2,
@@ -96,37 +114,40 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
   const cushionFolderRef = useRef<GUI | null>(null);
   const cushionControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
   const [cushionMaterialProps, setCushionMaterialProps] = useState({
-    color: '#faf3e7',
+    color: '#fff2db',
     opacity: 1.0,
     roughness: 0,     
     metalness: 1.0,
-    envMapIntensity: 0.5,
     emissive: '#fff',
     emissiveIntensity: 0,
+    envMapIntensity: 0.3,
     envMapImages: listOfImages,
-    envMapImage: '/images/silver_6.jpg',
+    envMapImage: '/images/img_6.png',
   });
 
-  // CUSHION COVERAGE GUI REFS
+  // CUSHION COVER GUI REFS
   const cushionCoverFolderRef = useRef<GUI | null>(null);
-  const cushionCoverageControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
-  const [cushionCoverMaterialProps, setCushionCoverageMaterialProps] = useState({
+  const cushionCoverControllersRef = useRef<Record<string, any>>({}); // Store the controllers in a ref
+  const [cushionCoverMaterialProps, setCushionCoverMaterialProps] = useState({
     color: '#e4e3e3',
     opacity: 0.3,
   });
 
   useEffect(() => {
-    const guiFive = new GUI({
+    const guiEight = new GUI({
       width: 350,
-      title: 'LEFT - THIRD FROM THE TOP'
+      title: 'RIGHT - FOURTH FROM THE TOP'
     });
     // Position the GUI
-    guiFive.domElement.style.position = 'absolute';
-    guiFive.domElement.style.left = '10px';
-    guiFive.domElement.style.top = '1595px';
+    // guiFive.domElement.style.position = 'absolute';
+    // guiFive.domElement.style.left = '500px';
+    // guiFive.domElement.style.top = '500px';
+    guiEight.domElement.style.position = 'absolute';
+    guiEight.domElement.style.right = '10px';
+    guiEight.domElement.style.top = '1885px';
 
     // ROTATION FOLDER
-    const rotationFolder = guiFive.addFolder('Rotation');
+    const rotationFolder = guiEight.addFolder('Rotation');
     rotationFolderRef.current = rotationFolder;
 
     const localRotationProps = {
@@ -141,8 +162,9 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
         setIsFacingUser(isFacingUser);
       });
 
+
     // TEXT BOLD FOLDER
-    const textBoldFolder = guiFive.addFolder('Text Bold');
+    const textBoldFolder = guiEight.addFolder('Text Bold');
     textBoldFolderRef.current = textBoldFolder;
 
     const localTextBoldProps = {
@@ -182,7 +204,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       .onChange((opacity: number) => {
         setTextBoldMaterialProps((prev) => ({ ...prev, opacity }));
       });
-
+    
     textBoldControllersRef.current.emissiveController = textBoldFolder
       .addColor(localTextBoldProps, 'emissive')
       .name('Emissive')
@@ -194,11 +216,11 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       .add(localTextBoldProps, 'emissiveIntensity', 0, 1, 0.01)
       .name('Emissive Intensity')
       .onChange((emissiveIntensity: number) => {
-        setTextBoldMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
+        setTextBoldMaterialProps((prev) => ({ ...prev, emissiveIntensity })); 
       });
 
     // TEXT LIGHT FOLDER
-    const textLightFolder = guiFive.addFolder('Text Light');
+    const textLightFolder = guiEight.addFolder('Text Light');
     textLightFolderRef.current = textLightFolder;
 
     const localTextLightProps = {
@@ -207,7 +229,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       roughness: textLightMaterialProps.roughness,
       opacity: textLightMaterialProps.opacity,
       emissive: textLightMaterialProps.emissive,
-      emissiveIntensity: textLightMaterialProps.emissiveIntensity
+      emissiveIntensity: textLightMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -238,13 +260,13 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       .onChange((opacity: number) => {
         setTextLightMaterialProps((prev) => ({ ...prev, opacity }));
       });
-
+    
     textLightControllersRef.current.emissiveController = textLightFolder
       .addColor(localTextLightProps, 'emissive')
       .name('Emissive')
       .onChange((emissive: string) => {
         setTextLightMaterialProps((prev) => ({ ...prev, emissive }));
-      });
+      }); 
 
     textLightControllersRef.current.emissiveIntensityController = textLightFolder
       .add(localTextLightProps, 'emissiveIntensity', 0, 1, 0.01)
@@ -252,9 +274,66 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       .onChange((emissiveIntensity: number) => {
         setTextLightMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
       });
+    
+    // DPI TEXT FOLDER
+    const dpiTextFolder = guiEight.addFolder('DPI Text');
+    dpiTextFolderRef.current = dpiTextFolder;
+    // textFolderRef.current.open();
+
+    const localDpiTextProps = {
+      color: dpiTextMaterialProps.color,
+      opacity: dpiTextMaterialProps.opacity,
+      roughness: dpiTextMaterialProps.roughness,
+      metalness: dpiTextMaterialProps.metalness,
+      emissive: dpiTextMaterialProps.emissive,
+      emissiveIntensity: dpiTextMaterialProps.emissiveIntensity,
+    }
+
+    // add controls for each property
+    dpiTextControllersRef.current.colorController = dpiTextFolder
+      .addColor(localDpiTextProps, 'color')
+      .name('Color')
+      .onChange((value: string) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, color: value }));
+      });
+
+    dpiTextControllersRef.current.opacityController = dpiTextFolder
+      .add(localDpiTextProps, 'opacity', 0, 1, 0.01)
+      .name('Opacity')
+      .onChange((value: number) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, opacity: value }));
+      });
+
+    dpiTextControllersRef.current.roughnessController = dpiTextFolder
+      .add(localDpiTextProps, 'roughness', 0, 1, 0.01)
+      .name('Roughness')
+      .onChange((value: number) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, roughness: value }));
+      });
+
+    dpiTextControllersRef.current.metalnessController = dpiTextFolder
+      .add(localDpiTextProps, 'metalness', 0, 1, 0.01)
+      .name('Metalness')
+      .onChange((value: number) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, metalness: value }));
+      });
+
+    dpiTextControllersRef.current.emissiveController = dpiTextFolder
+      .addColor(localDpiTextProps, 'emissive')
+      .name('Emissive')
+      .onChange((value: string) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, emissive: value }));
+      });
+
+    dpiTextControllersRef.current.emissiveIntensityController = dpiTextFolder
+      .add(localDpiTextProps, 'emissiveIntensity', 0, 1, 0.01)
+      .name('Emissive Intensity')
+      .onChange((value: number) => {
+        setDpiTextMaterialProps(prev => ({ ...prev, emissiveIntensity: value }));
+      });
 
     // SPHERE FOLDER
-    const sphereFolder = guiFive.addFolder('Sphere');
+    const sphereFolder = guiEight.addFolder('Sphere');
     sphereFolderRef.current = sphereFolder;
 
     const localSphereProps = {
@@ -263,7 +342,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       roughness: sphereMaterialProps.roughness,
       opacity: sphereMaterialProps.opacity,
       emissive: sphereMaterialProps.emissive,
-      emissiveIntensity: sphereMaterialProps.emissiveIntensity
+      emissiveIntensity: sphereMaterialProps.emissiveIntensity,
     }
 
     // add controls for each property
@@ -310,7 +389,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       });
 
     // CUSHION FOLDER
-    const cushionFolder = guiFive.addFolder('Cushion');
+    const cushionFolder = guiEight.addFolder('Cushion');
     cushionFolderRef.current = cushionFolder;
 
     const localCushionProps = {
@@ -322,17 +401,17 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       emissive: cushionMaterialProps.emissive,
       emissiveIntensity: cushionMaterialProps.emissiveIntensity,
       envMapImages: cushionMaterialProps.envMapImages,
-      envMapImage: cushionMaterialProps.envMapImage,
+      envMapImage: cushionMaterialProps.envMapImage,     
     }
 
     // add controls for each property
     cushionControllersRef.current.envMapImageController = cushionFolder
-    .add(localCushionProps, 'envMapImage', cushionMaterialProps.envMapImages) // Passing the array creates a dropdown.
-    .name('Reflected Image')
-    .onChange((selectedImage: string) => {
-      // Update your material props with the selected image directly.
-      setCushionMaterialProps((prev) => ({ ...prev, envMapImage: selectedImage }));
-    });
+      .add(localCushionProps, 'envMapImage', cushionMaterialProps.envMapImages) // Passing the array creates a dropdown.
+      .name('Reflected Image')
+      .onChange((selectedImage: string) => {
+        // Update your material props with the selected image directly.
+        setCushionMaterialProps((prev) => ({ ...prev, envMapImage: selectedImage }));
+      });
 
     cushionControllersRef.current.colorController = cushionFolder
       .addColor(localCushionProps, 'color')
@@ -368,7 +447,7 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
       .onChange((envMapIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, envMapIntensity }));
       });
-
+    
     cushionControllersRef.current.emissiveController = cushionFolder
       .addColor(localCushionProps, 'emissive')
       .name('Emissive')
@@ -376,55 +455,55 @@ function LogoFiveGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props)
         setCushionMaterialProps((prev) => ({ ...prev, emissive }));
       });
 
-    cushionControllersRef.current.emissiveIntensityController = cushionFolder
+     cushionControllersRef.current.emissiveIntensityController = cushionFolder
       .add(localCushionProps, 'emissiveIntensity', 0, 1, 0.01)
       .name('Emissive Intensity')
       .onChange((emissiveIntensity: number) => {
         setCushionMaterialProps((prev) => ({ ...prev, emissiveIntensity }));
-      });
-
-    // CUSHION COVERAGE FOLDER
-    const cushionCoverFolder = guiFive.addFolder('Cushion Cover');
+      });    
+    
+    // CUSHION COVER FOLDER
+    const cushionCoverFolder = guiEight.addFolder('Cushion Cover');
     cushionCoverFolderRef.current = cushionCoverFolder;
 
-    const localCushionCoverageProps = {
+    const localCushionCoverProps = {
       color: cushionCoverMaterialProps.color,
       opacity: cushionCoverMaterialProps.opacity,
     }
 
     // add controls for each property
-    cushionCoverageControllersRef.current.colorController = cushionCoverFolder
-      .addColor(localCushionCoverageProps, 'color')
+    cushionCoverControllersRef.current.colorController = cushionCoverFolder
+      .addColor(localCushionCoverProps, 'color')
       .name('Color')
       .onChange((color: string) => {
-        setCushionCoverageMaterialProps((prev) => ({ ...prev, color }));
+        setCushionCoverMaterialProps((prev) => ({ ...prev, color }));
       });
 
-    cushionCoverageControllersRef.current.opacityController = cushionCoverFolder
-      .add(localCushionCoverageProps, 'opacity', 0, 1, 0.01)
+    cushionCoverControllersRef.current.opacityController = cushionCoverFolder
+      .add(localCushionCoverProps, 'opacity', 0, 1, 0.01)
       .name('Opacity')
       .onChange((opacity: number) => {
-        setCushionCoverageMaterialProps((prev) => ({ ...prev, opacity }));
+        setCushionCoverMaterialProps((prev) => ({ ...prev, opacity }));
       });
-    
 
     return () => {
-      guiFive.destroy();
+      guiEight.destroy();
     }
 
   }, []);
 
   return (
-    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoFiveGroupRef}>
+    <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoEightGroupRef}>
       <DeloitteDigitalLogoGroup
         textBoldMaterialProps={textBoldMaterialProps}
         textLightMaterialProps={textLightMaterialProps}
         sphereMaterialProps={sphereMaterialProps}
       />
-      <CushionCover size={0.92} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionCoverMaterialProps={cushionCoverMaterialProps} />
-      <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
+      <DPIText text={'DP&I'} position={[0, 0, -1.7]} rotation={new THREE.Euler(0, Math.PI, 0)} size={0.7} depth={0.3} textMaterialProps={dpiTextMaterialProps} />
+      <CushionCover size={0.93} scale={[1.7, 1.7, 1.7]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionCoverMaterialProps={cushionCoverMaterialProps} />
+      <Cushion size={0.9} scale={[1.7, 1.7, 1.7]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );
 }
 
-export default LogoFiveGroup;
+export default LogoEightGroup;

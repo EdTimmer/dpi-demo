@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group } from 'three';
+import { Group, MathUtils } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Text from './Text';
@@ -10,22 +10,12 @@ import { listOfImages } from '../../../utilities/listOfImages';
 
 interface Props {
   isMouseEntered: boolean;
-  isMouseLeft: boolean;
   isFacingUser: boolean;
   setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
-  const [initialRotation, setInitialRotation] = useState(0);
+function LogoThreeGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
   const logoThreeGroupRef = useRef<Group>(null);
-
-  useEffect(() => {
-    if (isFacingUser) {
-      setInitialRotation(0);
-    } else {
-      setInitialRotation(Math.PI);
-    }
-  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
@@ -35,26 +25,30 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacing
   }, [isFacingUser]);
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
-    
-    // The small 'breathing' rotation in X:
     if (logoThreeGroupRef.current) {
-      logoThreeGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
-    }
-  
-    // Then the Y rotation on mouse enter/leave, scaled by delta:
-    if (
-      isMouseEntered &&
-      logoThreeGroupRef.current &&
-      logoThreeGroupRef.current.rotation.y <= initialRotation + Math.PI
-    ) {
-      logoThreeGroupRef.current.rotation.y += 3 * delta;
-    } else if (
-      isMouseLeft &&
-      logoThreeGroupRef.current &&
-      logoThreeGroupRef.current.rotation.y >= initialRotation
-    ) {
-      logoThreeGroupRef.current.rotation.y -= 3 * delta;
+      // Apply a "breathing" effect on the X axis.
+      logoThreeGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
+
+      // Determine the starting rotation.
+      const initialRotation = isFacingUser ? 0 : Math.PI;
+      // Set the target rotation: rotate an extra PI when the mouse enters.
+      const targetY = isMouseEntered ? initialRotation + Math.PI : initialRotation;
+      
+      // Incorporate delta into the interpolation factor for frame rate independence.
+      const speed = 3; // Adjust this to control the smoothness/speed
+      const lerpFactor = 1 - Math.exp(-speed * delta);
+      
+      // Interpolate the current rotation towards the target rotation.
+      logoThreeGroupRef.current.rotation.y = MathUtils.lerp(
+        logoThreeGroupRef.current.rotation.y,
+        targetY,
+        lerpFactor
+      );
+
+      // Optionally, snap to target if very close.
+      if (Math.abs(logoThreeGroupRef.current.rotation.y - targetY) < 0.001) {
+        logoThreeGroupRef.current.rotation.y = targetY;
+      }
     }
   });
 
@@ -106,7 +100,7 @@ function LogoThreeGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacing
   useEffect(() => {
     const guiThree = new GUI({ 
       width: 350,
-      title: 'CENTER LEFT PIN'
+      title: 'LEFT - SECOND FROM THE TOP'
     });
     // Position the GUI
     guiThree.domElement.style.position = 'absolute'; // Customize the position

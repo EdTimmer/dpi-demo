@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Group } from 'three';
+import { Group, MathUtils } from 'three';
 import * as THREE from 'three';
 import { GUI } from 'lil-gui';
 import Text from './Text';
@@ -8,22 +8,12 @@ import Cushion from './Cushion';
 
 interface Props {
   isMouseEntered: boolean;
-  isMouseLeft: boolean;
   isFacingUser: boolean;
   setIsFacingUser: (isFacingUser: boolean) => void;
 }
 
-function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUser }: Props) {
-  const [initialRotation, setInitialRotation] = useState(0);
+function LogoSixGroup({ isMouseEntered, isFacingUser, setIsFacingUser }: Props) {
   const logoSixGroupRef = useRef<Group>(null);
-
-  useEffect(() => {
-    if (isFacingUser) {
-      setInitialRotation(0);
-    } else {
-      setInitialRotation(Math.PI);
-    }
-  }, [isFacingUser]);
 
   // Set the initial rotation on mount only
   useEffect(() => {
@@ -33,26 +23,30 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
   }, [isFacingUser]);
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
-    
-    // The small 'breathing' rotation in X:
     if (logoSixGroupRef.current) {
-      logoSixGroupRef.current.rotation.x = Math.sin(time * 0.5) * 0.12;
-    }
-  
-    // Then the Y rotation on mouse enter/leave, scaled by delta:
-    if (
-      isMouseEntered &&
-      logoSixGroupRef.current &&
-      logoSixGroupRef.current.rotation.y <= initialRotation +  Math.PI
-    ) {
-      logoSixGroupRef.current.rotation.y += 3 * delta;
-    } else if (
-      isMouseLeft &&
-      logoSixGroupRef.current &&
-      logoSixGroupRef.current.rotation.y >= initialRotation
-    ) {
-      logoSixGroupRef.current.rotation.y -= 3 * delta;
+      // Apply a "breathing" effect on the X axis.
+      logoSixGroupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.12;
+
+      // Determine the starting rotation.
+      const initialRotation = isFacingUser ? 0 : Math.PI;
+      // Set the target rotation: rotate an extra PI when the mouse enters.
+      const targetY = isMouseEntered ? initialRotation + Math.PI : initialRotation;
+      
+      // Incorporate delta into the interpolation factor for frame rate independence.
+      const speed = 3; // Adjust this to control the smoothness/speed
+      const lerpFactor = 1 - Math.exp(-speed * delta);
+      
+      // Interpolate the current rotation towards the target rotation.
+      logoSixGroupRef.current.rotation.y = MathUtils.lerp(
+        logoSixGroupRef.current.rotation.y,
+        targetY,
+        lerpFactor
+      );
+
+      // Optionally, snap to target if very close.
+      if (Math.abs(logoSixGroupRef.current.rotation.y - targetY) < 0.001) {
+        logoSixGroupRef.current.rotation.y = targetY;
+      }
     }
   });
 
@@ -87,7 +81,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
   useEffect(() => {
     const guiSix = new GUI({
       width: 350,
-      title: 'BOTTOM RIGHT PIN'
+      title: 'RIGHT - THIRD FROM THE TOP'
     });
     // Position the GUI
     guiSix.domElement.style.position = 'absolute';
@@ -232,7 +226,7 @@ function LogoSixGroup({ isMouseEntered, isMouseLeft, isFacingUser, setIsFacingUs
 
   return (
     <group position={[0, 0, 0]} scale={[1.0, 1.0, 1.0]} ref={logoSixGroupRef}>
-      <Text text={'DP&I'} position={[-0.05, 0, 0.3]} rotation={new THREE.Euler(0, 0, 0)} size={0.8} depth={0.5} textMaterialProps={textMaterialProps} />
+      <Text text={'DP&I'} position={[0, 0, 0.3]} rotation={new THREE.Euler(0, 0, 0)} size={0.8} depth={0.5} textMaterialProps={textMaterialProps} />
       <Cushion size={0.9} scale={[1.7, 1.7, 0.4]} position={[0, 0, 0]} rotation={new THREE.Euler(0, 0, 0)} cushionMaterialProps={cushionMaterialProps} />
     </group>    
   );
