@@ -22,6 +22,10 @@ export default createGlobalStyle`
     /* height: 34px; */
   }
 
+  .lil-gui.autoPlace {
+    max-height: 200%;
+  }
+
   /* Next block defines what root 1rem is */
 
   /* Standard font-size is 16px.  If 16px is 100%, then 10px is 62.5% */
