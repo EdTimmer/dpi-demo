@@ -14,6 +14,7 @@ export const listOfImages = [
   '/images/silver_4.jpg',
   '/images/oil-bright-blue.jpg',
   '/images/oil-green.jpg',
+  '/images/oil-bw.jpg',
   '/images/silver_6.jpg',
   '/images/silver_7.jpg',
   '/images/silver_9.jpg',
