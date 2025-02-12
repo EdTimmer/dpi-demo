@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import * as THREE from 'three';
-import { useLoader } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
@@ -25,10 +25,11 @@ const Text = ({ position, rotation, text, size, depth, textMaterialProps }: Prop
   const meshRef = useRef<THREE.Mesh>(null!);
   const [font, setFont] = useState<Font | null>(null);
 
-  const texture = useLoader(THREE.TextureLoader, '/images/silver_7.jpg');
+  const texture = useTexture('/images/silver_7.jpg');
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
+    texture.needsUpdate = true;
     return texture;
   }, [texture]);
 

@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { useLoader } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface Props {
@@ -23,10 +23,11 @@ interface Props {
 const Cushion = ({ position, rotation, size, scale, cushionMaterialProps }: Props) => {
   const shapeFiveRef = useRef<THREE.Mesh>(null); 
 
-  const texture = useLoader(THREE.TextureLoader, cushionMaterialProps.envMapImage);
+  const texture = useTexture(cushionMaterialProps.envMapImage);
 
   const envMap = useMemo(() => {
     texture.mapping = THREE.EquirectangularReflectionMapping;
+    texture.needsUpdate = true;
     return texture;
   }, [texture]);
 
